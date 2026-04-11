@@ -1,0 +1,48 @@
+# ── Local overrides — never commit these ────────────────────────────────────
+# .zshrc.local, .gitconfig.local, etc.
+*.local
+*.history
+
+.omc/
+
+# ── macOS ────────────────────────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ── Homebrew ─────────────────────────────────────────────────────────────────
+# Lock file is machine-specific (resolved package versions)
+Brewfile.lock.json
+
+# ── Vim / Neovim swap & undo files ───────────────────────────────────────────
+*.swp
+*.swo
+*.un~
+
+# ── Stow ─────────────────────────────────────────────────────────────────────
+.stow-global-ignore
+
+# ── Secrets — should never appear in this repo ───────────────────────────────
+*.asc
+*.pem
+*.key
+.env
+.env.*
+*_rsa
+*_ed25519
+
+# ── btop auto-saves config on exit (keep the committed version clean) ─────────
+config/.config/btop/btop.conf
+
+# ── Node / NPM ───────────────────────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npmrc
+
+# ── Misc ─────────────────────────────────────────────────────────────────────
+.netrc
+*.bak
+*.tmp
+*.old

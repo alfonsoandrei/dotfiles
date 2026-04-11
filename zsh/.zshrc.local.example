@@ -1,0 +1,114 @@
+# ~/.zshrc.local — machine-specific overrides
+# Copy this file to ~/.zshrc.local and fill in your values.
+# This file is NOT tracked by git.
+
+# ── Credentials ────────────────────────────────────────────────────────────
+export BITBUCKET_APP_PASSWORD_B64=""
+
+# ── AWS CodeArtifact ───────────────────────────────────────────────────────
+export CODEARTIFACT_DOMAIN=""
+export CODEARTIFACT_DOMAIN_OWNER=""
+
+# ── AWS SSO helpers ────────────────────────────────────────────────────────
+ssologin() {
+    local profile="${1:-dev}"
+    echo "🔍 Checking SSO session for profile: $profile..."
+    if AWS_PAGER="" aws sts get-caller-identity --profile "$profile" &>/dev/null; then
+        echo "✅ Session already active ($profile), no login needed"
+        return 0
+    fi
+    echo "🚀 Session expired, starting SSO login..."
+    AWS_PAGER="" aws sso login --profile "$profile"
+}
+
+npmtoken() {
+    local profile="${1:-dev}"
+    TOKEN=$(AWS_PAGER="" aws codeartifact get-authorization-token \
+        --domain "$CODEARTIFACT_DOMAIN" \
+        --domain-owner "$CODEARTIFACT_DOMAIN_OWNER" \
+        --query authorizationToken \
+        --output text \
+        --region us-east-1 \
+        --profile "$profile")
+    export CODEARTIFACT_AUTH_TOKEN="${TOKEN}"
+    echo "✅ New CODEARTIFACT_AUTH_TOKEN set"
+}
+
+dev-login() {
+    if ssologin dev; then
+        npmtoken dev
+    else
+        echo "Aborting npmtoken because login failed."
+    fi
+}
+
+# ── MongoDB local sync ─────────────────────────────────────────────────────
+mongo-sync() {
+    local dump_dir=~/Documents/mongodb-dump
+    local uri
+
+    echo "🔐 Decrypting MongoDB URI..."
+    uri=$(gpg --decrypt ~/.secrets/mongodb-uri.asc 2>/dev/null)
+    if [[ -z "$uri" ]]; then
+        echo "❌ Failed to decrypt MongoDB URI"
+        return 1
+    fi
+
+    mkdir -p "$dump_dir"
+
+    echo "📦 Dumping remote database to $dump_dir..."
+    mongodump --uri "$uri" --out "$dump_dir/dump"
+    if [[ $? -ne 0 ]]; then
+        echo "❌ mongodump failed"
+        return 1
+    fi
+
+    echo "📥 Restoring to local MongoDB as swsl-api-db-local..."
+    mongorestore \
+        --nsFrom='dev-swsl-api-db.*' \
+        --nsTo='swsl-api-db-local.*' \
+        --drop \
+        "$dump_dir/dump"
+    if [[ $? -ne 0 ]]; then
+        echo "❌ mongorestore failed"
+        return 1
+    fi
+
+    echo "✅ Sync complete — database available as swsl-api-db-local"
+}
+
+# ── NATS ───────────────────────────────────────────────────────────────────
+NATS_LOG=/tmp/nats.log
+NATS_WATCH_LOG=/tmp/nats-watch.log
+
+nats-start() {
+    : > "$NATS_LOG"
+    docker run --rm -p 4222:4222 nats:latest --jetstream -DV 2>&1 | tee "$NATS_LOG" &
+    sleep 0.5
+    nvim -n "term://tail -f $NATS_LOG"
+}
+
+nats-stop() {
+    local id=$(docker ps -q --filter "publish=4222")
+    if [[ -n "$id" ]]; then
+        docker stop "$id" && echo "NATS stopped"
+    else
+        echo "No NATS container running"
+    fi
+}
+
+nats-purge() {
+    truncate -s 0 "$NATS_LOG" "$NATS_WATCH_LOG" 2>/dev/null
+    echo "NATS logs purged"
+}
+
+alias nats-watch='nats sub "calls.>"'
+alias nats-consumers='watch -n1 nats consumer report CALLS-silver-call-manager'
+alias nats-stream='nats stream view CALLS'
+
+# ── SCM logs ───────────────────────────────────────────────────────────────
+alias scm-logs='nvim -n "term://tail -f /tmp/scm-debug.log"'
+alias scm-pretty='node ~/.scripts/log-pretty.mjs'
+
+# ── Other work-specific aliases / PATH additions ───────────────────────────
+# export PATH="$PATH:/path/to/work/tools"

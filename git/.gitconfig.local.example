@@ -1,0 +1,12 @@
+# ~/.gitconfig.local — user identity and machine-specific git settings
+# Copy this file to ~/.gitconfig.local and fill in your values.
+# This file is NOT tracked by git.
+
+[user]
+    name = Your Name
+    email = you@example.com
+    signingkey = YOUR_GPG_KEY_FINGERPRINT
+
+# Optionally use a different identity inside work repos:
+# [includeIf "gitdir:~/work/"]
+#     path = ~/work/.gitconfig-work

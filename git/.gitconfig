@@ -1,0 +1,30 @@
+# User identity is machine-specific — set it in ~/.gitconfig.local
+# See git/.gitconfig.local.example for a template.
+[include]
+    path = ~/.gitconfig.local
+
+[diff]
+    tool = nvim
+[difftool "nvim"]
+    cmd = nvim -d "$LOCAL" "$REMOTE"
+[merge]
+    tool = nvim
+    gpgSign = true
+[mergetool "nvim"]
+    cmd = nvim -d $LOCAL $REMOTE $BASE $MERGED
+[gpg]
+    program = gpg
+[commit]
+    gpgSign = true
+[url "git@bitbucket.org:"]
+    insteadOf = https://bitbucket.org/
+[url "git@github.com:"]
+    insteadOf = https://github.com/
+[core]
+    pager = delta
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true
+    side-by-side = true
+    line-numbers = true
