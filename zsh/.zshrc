@@ -75,7 +75,7 @@ function yy() {
 ############################
 # ZOXIDE
 ############################
-eval "$(zoxide init zsh)"
+eval "$(zoxide init --cmd cd zsh)"
 
 ############################
 # LOCAL OVERRIDES
