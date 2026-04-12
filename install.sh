@@ -53,6 +53,19 @@ git -C "$DOTFILES" submodule update --init --recursive
 # ── 5. Stow symlinks ────────────────────────────────────────────────────────
 echo "==> Symlinking dotfiles with stow..."
 cd "$DOTFILES"
+
+# Back up any real files that would conflict with stow (e.g. ~/.zshrc from OMZ)
+for pkg in zsh git config ssh scripts nvim themes; do
+    while IFS= read -r src; do
+        rel="${src#$DOTFILES/$pkg/}"
+        target="$HOME/$rel"
+        if [ -e "$target" ] && [ ! -L "$target" ]; then
+            echo "   backing up $target -> $target.bak"
+            mv "$target" "$target.bak"
+        fi
+    done < <(find "$DOTFILES/$pkg" -not -type d 2>/dev/null)
+done
+
 for pkg in zsh git config ssh scripts nvim themes; do
     echo "   stow $pkg"
     stow -t "$HOME" --restow "$pkg"
