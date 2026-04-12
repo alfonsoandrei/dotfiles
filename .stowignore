@@ -3,3 +3,4 @@ install.sh
 Brewfile
 .gitignore
 .gitmodules
+*.example

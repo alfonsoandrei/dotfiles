@@ -50,7 +50,20 @@ fi
 echo "==> Updating git submodules..."
 git -C "$DOTFILES" submodule update --init --recursive
 
-# ── 5. Stow symlinks ────────────────────────────────────────────────────────
+# ── 5. Local override templates ─────────────────────────────────────────────
+if [ ! -f "$DOTFILES/zsh/.zshrc.local" ]; then
+    echo "==> Creating zsh/.zshrc.local from example..."
+    cp "$DOTFILES/zsh/.zshrc.local.example" "$DOTFILES/zsh/.zshrc.local"
+    echo "   ⚠️  Fill in your credentials in ~/.zshrc.local"
+fi
+
+if [ ! -f "$DOTFILES/git/.gitconfig.local" ]; then
+    echo "==> Creating git/.gitconfig.local from example..."
+    cp "$DOTFILES/git/.gitconfig.local.example" "$DOTFILES/git/.gitconfig.local"
+    echo "   ⚠️  Fill in your name, email, and GPG key in ~/.gitconfig.local"
+fi
+
+# ── 6. Stow symlinks ────────────────────────────────────────────────────────
 echo "==> Symlinking dotfiles with stow..."
 cd "$DOTFILES"
 
@@ -71,26 +84,13 @@ for pkg in zsh git config ssh scripts nvim themes; do
     stow -t "$HOME" --restow "$pkg"
 done
 
-# ── 6. Migrate Ghostty config to XDG path ───────────────────────────────────
+# ── 7. Migrate Ghostty config to XDG path ───────────────────────────────────
 GHOSTTY_LEGACY="$HOME/Library/Application Support/com.mitchellh.ghostty/config"
 GHOSTTY_XDG="$HOME/.config/ghostty/config"
 if [ -f "$GHOSTTY_LEGACY" ] && [ ! -L "$GHOSTTY_LEGACY" ] && [ ! -e "$GHOSTTY_XDG" ]; then
     echo "==> Migrating Ghostty config to ~/.config/ghostty/config..."
     mkdir -p "$HOME/.config/ghostty"
     mv "$GHOSTTY_LEGACY" "$GHOSTTY_XDG.bak"
-fi
-
-# ── 7. Local override templates ─────────────────────────────────────────────
-if [ ! -f "$HOME/.zshrc.local" ]; then
-    echo "==> Creating ~/.zshrc.local from example..."
-    cp "$DOTFILES/zsh/.zshrc.local.example" "$HOME/.zshrc.local"
-    echo "   ⚠️  Fill in your credentials in ~/.zshrc.local"
-fi
-
-if [ ! -f "$HOME/.gitconfig.local" ]; then
-    echo "==> Creating ~/.gitconfig.local from example..."
-    cp "$DOTFILES/git/.gitconfig.local.example" "$HOME/.gitconfig.local"
-    echo "   ⚠️  Fill in your name, email, and GPG key in ~/.gitconfig.local"
 fi
 
 echo ""
