@@ -51,7 +51,19 @@ nvim ~/.gitconfig.local  # your name, email, GPG signing key
 
 See [`zsh/.zshrc.local.example`](zsh/.zshrc.local.example) and [`git/.gitconfig.local.example`](git/.gitconfig.local.example) for all available options.
 
-### 4. Restart your terminal
+### 4. Set up YubiKey (if using one)
+
+Insert your YubiKey and run:
+
+```bash
+./setup-yubikey.sh
+```
+
+This configures `gpg-agent` for SSH support, imports your public key from the card, and sets trust. Requires `gnupg` and `pinentry-mac` (already in `Brewfile`).
+
+> **Prerequisite:** your card should have a public key URL set (`gpg --edit-card` → `url`). Without it the script will print the card status and prompt you to import manually.
+
+### 5. Restart your terminal
 
 ---
 
