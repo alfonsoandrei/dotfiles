@@ -1,0 +1,14 @@
+# #####################
+# Themes
+# #####################
+# Rose Pine
+# Rose Pine Moon
+# TokyoNight Moon
+# TokyoNight Storm
+# Ayu Mirage
+# Catppuccin Frappe
+# theme = Rose Pine Moon
+
+font-size = 13
+cursor-style-blink = true
+#cursor-color = #879EB6

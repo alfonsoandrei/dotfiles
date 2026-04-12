@@ -73,9 +73,18 @@ function yy() {
 }
 
 ############################
-# ZOXIDE
+# VI MODE
 ############################
-eval "$(zoxide init --cmd cd zsh)"
+bindkey -v
+export KEYTIMEOUT=1
+
+############################
+# GHOSTTY
+############################
+# Shell integration — only active when running inside Ghostty
+if [ -n "$GHOSTTY_RESOURCES_DIR" ]; then
+    source "$GHOSTTY_RESOURCES_DIR/shell-integration/zsh/ghostty-integration"
+fi
 
 ############################
 # LOCAL OVERRIDES
@@ -86,3 +95,8 @@ eval "$(zoxide init --cmd cd zsh)"
 if [ -f "$HOME/.zshrc.local" ]; then
     source "$HOME/.zshrc.local"
 fi
+
+############################
+# ZOXIDE
+############################
+eval "$(zoxide init --cmd cd zsh)"

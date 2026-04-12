@@ -56,14 +56,14 @@ cd "$DOTFILES"
 
 # Back up any real files that would conflict with stow (e.g. ~/.zshrc from OMZ)
 for pkg in zsh git config ssh scripts nvim themes; do
-    while IFS= read -r src; do
+    find "$DOTFILES/$pkg" -not -type d 2>/dev/null | while IFS= read -r src; do
         rel="${src#$DOTFILES/$pkg/}"
         target="$HOME/$rel"
         if [ -e "$target" ] && [ ! -L "$target" ]; then
             echo "   backing up $target -> $target.bak"
             mv "$target" "$target.bak"
         fi
-    done < <(find "$DOTFILES/$pkg" -not -type d 2>/dev/null)
+    done
 done
 
 for pkg in zsh git config ssh scripts nvim themes; do
@@ -71,7 +71,16 @@ for pkg in zsh git config ssh scripts nvim themes; do
     stow -t "$HOME" --restow "$pkg"
 done
 
-# ── 6. Local override templates ─────────────────────────────────────────────
+# ── 6. Migrate Ghostty config to XDG path ───────────────────────────────────
+GHOSTTY_LEGACY="$HOME/Library/Application Support/com.mitchellh.ghostty/config"
+GHOSTTY_XDG="$HOME/.config/ghostty/config"
+if [ -f "$GHOSTTY_LEGACY" ] && [ ! -L "$GHOSTTY_LEGACY" ] && [ ! -e "$GHOSTTY_XDG" ]; then
+    echo "==> Migrating Ghostty config to ~/.config/ghostty/config..."
+    mkdir -p "$HOME/.config/ghostty"
+    mv "$GHOSTTY_LEGACY" "$GHOSTTY_XDG.bak"
+fi
+
+# ── 7. Local override templates ─────────────────────────────────────────────
 if [ ! -f "$HOME/.zshrc.local" ]; then
     echo "==> Creating ~/.zshrc.local from example..."
     cp "$DOTFILES/zsh/.zshrc.local.example" "$HOME/.zshrc.local"
