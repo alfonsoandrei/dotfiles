@@ -10,7 +10,7 @@ Personal macOS terminal configuration managed with [GNU Stow](https://www.gnu.or
 | `git` | `~/.gitconfig` | delta pager, nvim diff/merge, GPG signing |
 | `config` | `~/.config/git/ignore`, `~/.config/btop/btop.conf` | Global gitignore, btop settings |
 | `ssh` | `~/.ssh/config` | GPG SSH agent, OrbStack integration |
-| `scripts` | `~/.scripts/log-pretty.mjs` | JSON log formatter |
+| `scripts` | `~/.scripts/` | [2FA (ykman)](scripts/README.md#2fa-yubikey-oath), JSON log formatter |
 | `nvim` | `~/.config/nvim/` | Neovim config (submodule → [alfonsoandrei/neovim](https://github.com/alfonsoandrei/neovim)) |
 | `themes` | `~/.zsh2000-node/` | Zsh theme (submodule → [alfonsoandrei/zsh2000-node](https://github.com/alfonsoandrei/zsh2000-node)) |
 

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# Interactive prompt for adding a new 2FA account
+read -p "Account Name (e.g. Issuer:AccountName): " NAME
+read -sp "Secret Key: " SECRET
+echo ""
+read -p "Require Touch? (y/N): " TOUCH
+
+CMD="ykman oath accounts add \"$NAME\" \"$SECRET\""
+
+if [[ "$TOUCH" =~ ^[Yy]$ ]]; then
+    CMD="$CMD --touch"
+fi
+
+# Confirming before execution
+echo "Executing: ykman oath accounts add \"$NAME\" [SECRET] $( [[ "$TOUCH" =~ ^[Yy]$ ]] && echo "--touch" )"
+eval "$CMD"

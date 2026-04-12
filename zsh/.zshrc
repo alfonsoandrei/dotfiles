@@ -56,6 +56,9 @@ alias aws-dev='aws sts get-caller-identity --profile dev'
 alias ck="node ~/.scripts/api-core-scripts/api-keys.mjs"
 alias ck-no-dogs="ck | jq -s '[.[] | select(.secretKey | test(\"APIDOG\") | not)]'"
 
+alias 2fa='~/.scripts/2fa'
+alias 2fa-add='~/.scripts/2fa-add'
+
 # Git branch creation helpers
 nb-feat() { git checkout -b "feature/$1"; }
 nb-fix()  { git checkout -b "hotfix/$1"; }

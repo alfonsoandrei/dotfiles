@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+# Get account list
+ACCOUNTS=$(ykman oath accounts list)
+
+# Select account
+if [[ -n "$1" ]]; then
+    # Filter by query
+    MATCHES=$(echo "$ACCOUNTS" | grep -i "$1")
+    COUNT=$(echo "$MATCHES" | grep -c . | xargs)
+
+    if [[ "$COUNT" -eq 1 ]]; then
+        ACCOUNT="$MATCHES"
+    elif [[ "$COUNT" -gt 1 ]]; then
+        ACCOUNT=$(echo "$MATCHES" | fzf --height 10% --layout=reverse --border --prompt="Select 2FA account: ")
+    else
+        echo "❌ No accounts matching '$1' found."
+        exit 1
+    fi
+else
+    # Interactive selection of all accounts
+    ACCOUNT=$(echo "$ACCOUNTS" | fzf --height 10% --layout=reverse --border --prompt="Select 2FA account: ")
+fi
+
+# Exit if no account selected
+if [[ -z "$ACCOUNT" ]]; then
+    exit 0
+fi
+
+# Prompt for touch (ykman blocks until touched)
+echo -n "👉 Touch your YubiKey for '$ACCOUNT'..."
+CODE=$(ykman oath accounts code --single "$ACCOUNT")
+
+# Clear the "Touch..." line and print success
+echo -e "\r\033[K✅ Code for '$ACCOUNT' copied to clipboard!"
+
+# Copy to clipboard
+echo -n "$CODE" | pbcopy
+
+# Output result
+REMAINING=$((30 - ($(date +%s) % 30)))
+echo "Code: $CODE ($REMAINING seconds remaining ⏰)"
