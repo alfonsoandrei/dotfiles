@@ -14,7 +14,7 @@ Personal macOS terminal configuration managed with [GNU Stow](https://www.gnu.or
 | `nvim` | `~/.config/nvim/` | Neovim config (submodule → [alfonsoandrei/neovim](https://github.com/alfonsoandrei/neovim)) |
 | `themes` | `~/.zsh2000-node/` | Zsh theme (submodule → [alfonsoandrei/zsh2000-node](https://github.com/alfonsoandrei/zsh2000-node)) |
 
-Machine-specific config (credentials, work aliases, AWS/NATS/MongoDB) lives in `~/.zshrc.local` — not tracked by git.
+Machine-specific config (credentials, work aliases, AWS) lives in `~/.zshrc.local` — not tracked by git.
 
 ---
 
@@ -45,7 +45,7 @@ This will:
 ### 3. Fill in local overrides
 
 ```bash
-nvim ~/.zshrc.local      # credentials, work env vars, AWS/NATS/MongoDB functions
+nvim ~/.zshrc.local      # credentials, work env vars, AWS functions
 nvim ~/.gitconfig.local  # your name, email, GPG signing key
 ```
 
@@ -97,7 +97,7 @@ Two files are sourced automatically but never committed:
 
 | File | Purpose |
 |------|---------|
-| `~/.zshrc.local` | Credentials, work functions (AWS SSO, NATS, MongoDB), machine PATH additions |
+| `~/.zshrc.local` | Credentials, work functions (AWS SSO), machine PATH additions |
 | `~/.gitconfig.local` | Name, email, GPG signing key |
 
 Copy the examples to get started:

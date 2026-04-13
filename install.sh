@@ -68,11 +68,16 @@ echo "==> Symlinking dotfiles with stow..."
 cd "$DOTFILES"
 
 # Back up any real files that would conflict with stow (e.g. ~/.zshrc from OMZ)
+REAL_DOTFILES="$(realpath "$DOTFILES")"
 for pkg in zsh git config ssh scripts nvim themes; do
     find "$DOTFILES/$pkg" -not -type d 2>/dev/null | while IFS= read -r src; do
         rel="${src#$DOTFILES/$pkg/}"
         target="$HOME/$rel"
         if [ -e "$target" ] && [ ! -L "$target" ]; then
+            # Check if the file is already part of the dotfiles repo (e.g., via a parent directory symlink)
+            if [[ "$(realpath "$target" 2>/dev/null)" == "$REAL_DOTFILES"* ]]; then
+                continue
+            fi
             echo "   backing up $target -> $target.bak"
             mv "$target" "$target.bak"
         fi
@@ -91,6 +96,14 @@ if [ -f "$GHOSTTY_LEGACY" ] && [ ! -L "$GHOSTTY_LEGACY" ] && [ ! -e "$GHOSTTY_XD
     echo "==> Migrating Ghostty config to ~/.config/ghostty/config..."
     mkdir -p "$HOME/.config/ghostty"
     mv "$GHOSTTY_LEGACY" "$GHOSTTY_XDG.bak"
+fi
+
+# ── 8. Symlink Zsh theme ────────────────────────────────────────────────────
+ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+mkdir -p "$ZSH_CUSTOM/themes"
+if [ ! -L "$ZSH_CUSTOM/themes/zsh2000-node.zsh-theme" ]; then
+    echo "==> Symlinking zsh2000-node theme to Oh My Zsh..."
+    ln -sf "$HOME/.zsh2000-node/zsh2000-node.zsh-theme" "$ZSH_CUSTOM/themes/zsh2000-node.zsh-theme"
 fi
 
 echo ""
