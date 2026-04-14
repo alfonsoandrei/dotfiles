@@ -16,13 +16,11 @@ GNUPGHOME="${GNUPGHOME:-$HOME/.gnupg}"
 mkdir -p "$GNUPGHOME"
 chmod 700 "$GNUPGHOME"
 
-echo "==> Writing gpg-agent.conf..."
-cat > "$GNUPGHOME/gpg-agent.conf" <<EOF
-enable-ssh-support
-pinentry-program $(command -v pinentry-mac)
-default-cache-ttl 600
-max-cache-ttl 7200
-EOF
+# gpg-agent.conf is managed by stow (gnupg package). Verify it's in place.
+if [ ! -e "$GNUPGHOME/gpg-agent.conf" ]; then
+  echo "Error: ~/.gnupg/gpg-agent.conf not found. Run install.sh (stow) first."
+  exit 1
+fi
 
 # ── 3. Restart gpg-agent ──────────────────────────────────────────────────────
 echo "==> Restarting gpg-agent..."

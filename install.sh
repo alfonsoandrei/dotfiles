@@ -29,8 +29,8 @@ if [ ! -d "$HOME/.nvm" ]; then
   # Export for current session to allow further setup if needed
   export NVM_DIR="$HOME/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    # Install LTS by default
-    nvm install --lts
+  # Install LTS by default
+  nvm install --lts
 fi
 
 # ── 4. Zsh plugins ──────────────────────────────────────────────────────────
@@ -69,7 +69,7 @@ cd "$DOTFILES"
 
 # Back up any real files that would conflict with stow (e.g. ~/.zshrc from OMZ)
 REAL_DOTFILES="$(realpath "$DOTFILES")"
-for pkg in zsh git config ssh scripts nvim themes opencode; do
+for pkg in zsh git config ssh scripts nvim themes opencode gnupg; do
   find "$DOTFILES/$pkg" -not -type d 2>/dev/null | while IFS= read -r src; do
     rel="${src#$DOTFILES/$pkg/}"
     target="$HOME/$rel"
@@ -84,7 +84,7 @@ for pkg in zsh git config ssh scripts nvim themes opencode; do
   done
 done
 
-for pkg in zsh git config ssh scripts nvim themes opencode; do
+for pkg in zsh git config ssh scripts nvim themes opencode gnupg; do
   echo "   stow $pkg"
   stow -t "$HOME" --restow "$pkg"
 done
