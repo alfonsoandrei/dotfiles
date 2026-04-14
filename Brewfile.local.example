@@ -1,8 +1,0 @@
-# Brewfile.local — machine-specific brews
-# Copy to Brewfile.local and fill in your tools.
-# This file is NOT tracked by git (*.local is gitignored).
-# Run: brew bundle --file=Brewfile.local
-
-# tap "some-vendor/tap"
-# brew "some-vendor/tap/some-tool"
-# cask "some-app"

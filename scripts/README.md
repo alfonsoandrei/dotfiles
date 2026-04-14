@@ -36,8 +36,3 @@ Interactively add a new OATH account to your YubiKey.
 # -> Require Touch? (y/N): y
 ```
 
----
-
-## Other Scripts
-
-- **`log-pretty.mjs`**: A Node.js script to format JSON logs into a human-readable layout. Accessible via `ck` or direct pipe.
