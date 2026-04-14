@@ -50,20 +50,26 @@ gpg-connect-agent updatestartuptty /bye 1> /dev/null
 # ALIASES
 ############################
 
+# Dirs
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+
+# VIM
+alias v=nvim
+
+# Lazygit
 alias lg='lazygit'
-alias aws-dev='aws sts get-caller-identity --profile dev'
 
-alias ck="node ~/.scripts/api-core-scripts/api-keys.mjs"
-alias ck-no-dogs="ck | jq -s '[.[] | select(.secretKey | test(\"APIDOG\") | not)]'"
-
+# YubiKey
 alias 2fa='~/.scripts/2fa'
 alias 2fa-add='~/.scripts/2fa-add'
 
-# Git branch creation helpers
+# Git 
 nb-feat() { git checkout -b "feature/$1"; }
 nb-fix()  { git checkout -b "hotfix/$1"; }
-
-alias claude-api='command claude --add-dir ~/Documents/git/ai-skills/api-core'
 
 # Yazi — cd into the directory yazi exits to
 function yy() {
@@ -74,6 +80,10 @@ function yy() {
     fi
     rm -f -- "$tmp"
 }
+
+# Ngrock WIP
+
+# alias tunnel='ngrok http'
 
 ############################
 # VI MODE
