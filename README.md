@@ -13,6 +13,7 @@ Personal macOS terminal configuration managed with [GNU Stow](https://www.gnu.or
 | `scripts` | `~/.scripts/` | [2FA (ykman)](scripts/README.md#2fa-yubikey-oath), JSON log formatter |
 | `nvim` | `~/.config/nvim/` | Neovim config (submodule → [alfonsoandrei/neovim](https://github.com/alfonsoandrei/neovim)) |
 | `themes` | `~/.zsh2000-node/` | Zsh theme (submodule → [alfonsoandrei/zsh2000-node](https://github.com/alfonsoandrei/zsh2000-node)) |
+| `opencode` | `~/.config/opencode/` | Opencode skills and configuration |
 
 Machine-specific config (credentials, work aliases, AWS) lives in `~/.zshrc.local` — not tracked by git.
 
@@ -75,10 +76,10 @@ If you already have Homebrew, Oh My Zsh, and `stow` installed:
 cd ~/dotfiles
 
 # Dry-run first to catch conflicts
-stow --simulate zsh git config ssh scripts nvim themes
+stow --simulate zsh git config ssh scripts nvim themes opencode
 
 # Apply
-stow zsh git config ssh scripts nvim themes
+stow zsh git config ssh scripts nvim themes opencode
 ```
 
 If stow reports conflicts (existing files at the target paths), back them up first:

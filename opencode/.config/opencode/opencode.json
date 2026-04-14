@@ -1,0 +1,32 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "ollama": {
+      "models": {
+        "qwen3.5": {
+          "_launch": true,
+          "name": "qwen3.5"
+        },
+        "qwen3.5:4b": {
+          "_launch": true,
+          "name": "qwen3.5:4b"
+        }
+      },
+      "name": "Ollama",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://127.0.0.1:11434/v1"
+      }
+    }
+  },
+  "tui": {
+    "status_line": {
+      "interval": 5,
+      "templates": {
+        "home_footer": "{cwd:basename} on {shell:git branch --show-current}",
+        "session_footer": "{cwd:basename} ({shell:git branch --show-current}) | {total_tokens:k} tok | ${total_cost} | ctx {context_used_pct}%",
+        "terminal_title": "{project_name} ({shell:git branch --show-current}) [{model_id}]"
+      }
+    }
+  }
+}
