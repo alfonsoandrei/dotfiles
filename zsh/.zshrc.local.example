@@ -1,3 +1,5 @@
 # ~/.zshrc.local — machine-specific overrides
 # Copy this file to ~/.zshrc.local and fill in your values.
 
+# ── pass ─────────────────────────────────────────────────────────────────────
+# PASSWORD_STORE_REPO=<my_git_repo>

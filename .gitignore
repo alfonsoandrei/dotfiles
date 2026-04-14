@@ -24,6 +24,7 @@ Brewfile.lock.json
 
 # ── Secrets — should never appear in this repo ───────────────────────────────
 *.asc
+!gnupg/public-keys/*.asc
 *.pem
 *.key
 .env

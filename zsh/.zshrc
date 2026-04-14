@@ -91,6 +91,11 @@ alias cat="bat --color=always"
 alias top=btop
 alias c=clear
 
+alias p='pass'
+alias pc='pass show --clip'
+alias pg='pass generate'
+alias pe='pass edit'
+
 # Interactive process kill
 fk() { ps aux | fzf --header-lines=1 | awk '{print $2}' | xargs kill -9; }
 
