@@ -1,6 +1,7 @@
 brew "awscli"
 brew "bat"
 brew "btop"
+brew "eza"
 brew "fd"
 brew "fzf"
 brew "git"

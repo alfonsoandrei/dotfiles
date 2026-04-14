@@ -7,8 +7,11 @@
 # TokyoNight Storm
 # Ayu Mirage
 # Catppuccin Frappe
-# theme = Rose Pine Moon
+theme = Rose Pine Moon
+# cursor-color = #879EB6
 
 font-size = 13
+
 cursor-style-blink = true
-#cursor-color = #879EB6
+
+macos-titlebar-style = tabs
