@@ -36,3 +36,26 @@ Interactively add a new OATH account to your YubiKey.
 # -> Require Touch? (y/N): y
 ```
 
+---
+
+## pass (password store)
+
+Interactive password picker using fzf.
+
+### `pass` (Ctrl+P)
+Opens an fzf picker with all your password-store entries:
+- Fuzzy search through `.gpg` files in `~/.password-store`
+- Preview shows metadata (account name, URL, notes) — never the password
+- Press `Enter` to copy password to clipboard
+
+#### Usage
+```
+Ctrl+P          # Open password picker
+Enter           # Copy selected password to clipboard
+```
+
+#### How it works
+1. Finds all `.gpg` files in `~/.password-store`
+2. Strips path and extension for clean display
+3. Opens fzf with preview showing metadata only
+4. On selection, uses `pass -c` to copy password (45s clipboard timeout)
