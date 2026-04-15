@@ -74,6 +74,7 @@ create_local_templates() {
 stow_dotfiles() {
 
   echo "==> Symlinking dotfiles with stow..."
+  ln -sf "$DOTFILES" "$HOME/dotfiles"
   cd "$DOTFILES"
 
   REAL_DOTFILES="$(realpath "$DOTFILES")"

@@ -1,7 +1,9 @@
 # ── Local overrides — never commit these ────────────────────────────────────
 # .zshrc.local, .gitconfig.local, etc.
 *.local
+*.local.zsh
 *.history
+**/local/
 
 .omc/
 

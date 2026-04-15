@@ -10,7 +10,10 @@ for cmd in pass gpg; do
   fi
 done
 
-[ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
+if [ -f "$HOME/.zshrc.local" ]; then
+  PASSWORD_STORE_REPO="$(grep -E '^export PASSWORD_STORE_REPO=' "$HOME/.zshrc.local" | head -1 | sed 's/^export PASSWORD_STORE_REPO=//' | tr -d '"'"'")"
+  GPG_KEY_ID="$(grep -E '^export GPG_KEY_ID=' "$HOME/.zshrc.local" | head -1 | sed 's/^export GPG_KEY_ID=//' | tr -d '"'"'")"
+fi
 
 NEW_SETUP=false
 if [ ! -d "$STORE" ]; then
