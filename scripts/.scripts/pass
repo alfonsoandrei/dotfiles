@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+
+function fzf-pass-copy() {
+  local selection
+  selection=$(find "$HOME/.password-store" -name "*.gpg" -not -path "*/.git/*" |
+    sed "s|$HOME/.password-store/||; s|.gpg$||" |
+    fzf --prompt "🔑 > " \
+      --preview "echo 'account: {}' && echo '----------------' && pass show {} | tail -n +2")
+
+  if [[ -n "$selection" ]]; then
+    # Use pass to copy to clipboard
+    pass -c "$selection"
+
+    # Print a temporary message below the prompt
+    zle -M "✅ password for '$selection' copied."
+  fi
+
+  # Redraw the prompt so your current typing isn't wiped out
+  zle reset-prompt
+}
+
+# Register the function as a Zsh Line Editor (zle) widget
+zle -N fzf-pass-copy
+
+# Bind it to Ctrl+P (or any sequence you prefer)
+bindkey '^p' fzf-pass-copy
