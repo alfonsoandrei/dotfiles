@@ -1,7 +1,11 @@
 README.md
 install.sh
+setup-*.sh
 Brewfile
+Brewfile.local
 .gitignore
 .gitmodules
 *.example
 local/
+.claude
+.omc

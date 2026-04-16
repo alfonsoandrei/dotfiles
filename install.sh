@@ -2,6 +2,7 @@
 set -e
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PACKAGES=(zsh git config ssh scripts nvim themes opencode gnupg)
 
 install_brew() {
 
@@ -77,46 +78,22 @@ stow_dotfiles() {
   ln -sf "$DOTFILES" "$HOME/dotfiles"
   cd "$DOTFILES"
 
-  REAL_DOTFILES="$(realpath "$DOTFILES")"
-  for pkg in zsh git config ssh scripts nvim themes opencode gnupg; do
-    find "$DOTFILES/$pkg" -not -type d 2>/dev/null | while IFS= read -r src; do
-      rel="${src#$DOTFILES/$pkg/}"
-      target="$HOME/$rel"
-      if [ -e "$target" ] && [ ! -L "$target" ]; then
-        if [[ "$(realpath "$target" 2>/dev/null)" == "$REAL_DOTFILES"* ]]; then
-          continue
-        fi
-        echo "   backing up $target -> $target.bak"
-        mv "$target" "$target.bak"
-      fi
-    done
+  # Adopt existing files into repo, then restore repo versions
+  for pkg in "${PACKAGES[@]}"; do
+    stow -t "$HOME" --adopt "$pkg" 2>/dev/null || true
   done
+  git -C "$DOTFILES" checkout -- .
 
-  for pkg in zsh git config ssh scripts nvim themes opencode gnupg; do
+  for pkg in "${PACKAGES[@]}"; do
     echo "   stow $pkg"
     stow -t "$HOME" --restow "$pkg"
   done
-}
 
-migrate_ghostty_config() {
-
-  GHOSTTY_LEGACY="$HOME/Library/Application Support/com.mitchellh.ghostty/config"
-  GHOSTTY_XDG="$HOME/.config/ghostty/config"
-  if [ -f "$GHOSTTY_LEGACY" ] && [ ! -L "$GHOSTTY_LEGACY" ] && [ ! -e "$GHOSTTY_XDG" ]; then
-    echo "==> Migrating Ghostty config to ~/.config/ghostty/config..."
-    mkdir -p "$HOME/.config/ghostty"
-    mv "$GHOSTTY_LEGACY" "$GHOSTTY_XDG.bak"
-  fi
-}
-
-symlink_zsh_theme() {
-
+  # OMZ expects themes in its own directory
   ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
   mkdir -p "$ZSH_CUSTOM/themes"
-  if [ ! -L "$ZSH_CUSTOM/themes/zsh2000-node.zsh-theme" ]; then
-    echo "==> Symlinking zsh2000-node theme to Oh My Zsh..."
-    ln -sf "$HOME/.zsh2000-node/zsh2000-node.zsh-theme" "$ZSH_CUSTOM/themes/zsh2000-node.zsh-theme"
-  fi
+  ln -sf "$DOTFILES/themes/.zsh2000-node/zsh2000-node.zsh-theme" \
+    "$ZSH_CUSTOM/themes/zsh2000-node.zsh-theme"
 }
 
 echo_next_steps() {
@@ -141,8 +118,6 @@ main() {
   init_submodules
   create_local_templates
   stow_dotfiles
-  migrate_ghostty_config
-  symlink_zsh_theme
 
   echo_next_steps
 }
