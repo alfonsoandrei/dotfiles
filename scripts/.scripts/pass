@@ -3,16 +3,30 @@
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
 
 function fzf-pass-copy() {
-  local selection=$(
+  local out key selection
+  out=$(
     find "$HOME/.password-store" -name "*.gpg" -not -path "*/.git/*" |
       sed "s|$HOME/.password-store/||; s|.gpg$||" |
       fzf --prompt "🔑 > " \
-        --preview "echo 'account: {}' && echo '----------------' && pass show {} | tail -n +2"
+        --preview "echo ' {}' && echo '----------------' && pass show {} | tail -n +2" \
+        --bind "ctrl-j:down,ctrl-k:up" \
+        --expect=ctrl-h,ctrl-l
   )
 
-  if [[ -n "$selection" ]]; then
+  if [[ -z "$out" ]]; then
+    zle reset-prompt
+    return
+  fi
+
+  key=$(head -1 <<< "$out")
+  selection=$(tail -1 <<< "$out")
+
+  if [[ "$key" == "ctrl-h" ]]; then
+    echo -n "$selection" | pbcopy
+    echo "👤 Account name copied: $selection" >&2
+  else
     pass -c "$selection" >/dev/null 2>&1
-    echo "🔑 Copied to clipboard (clears in 45s)" >&2
+    echo "🔑 Password copied to clipboard (clears in 45s)" >&2
   fi
 
   # Redraw the prompt so your current typing isn't wiped out
