@@ -37,6 +37,12 @@ install_nvm() {
   fi
 }
 
+install_neovim_node_deps() {
+
+  echo "==> Installing Neovim Node.js dependencies..."
+  npm install -g neovim tree-sitter-cli eslint_d @mermaid-js/mermaid-cli
+}
+
 install_zsh_plugins() {
   ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 
@@ -114,6 +120,7 @@ main() {
   install_brew
   install_omz
   install_nvm
+  install_neovim_node_deps
   install_zsh_plugins
   init_submodules
   create_local_templates
