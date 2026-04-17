@@ -28,5 +28,8 @@
         "terminal_title": "{project_name} ({shell:git branch --show-current}) [{model_id}]"
       }
     }
-  }
+  },
+  "plugin": [
+    "oh-my-openagent@latest"
+  ]
 }

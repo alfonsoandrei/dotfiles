@@ -55,6 +55,11 @@ install_zsh_plugins() {
     echo "==> Installing zsh-syntax-highlighting..."
     git clone https://github.com/zsh-users/zsh-syntax-highlighting "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
   fi
+
+  if [ ! -d "$ZSH_CUSTOM/themes/powerlevel10k" ]; then
+    echo "==> Installing Powerlevel10k theme..."
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k"
+  fi
 }
 
 init_submodules() {
@@ -95,11 +100,6 @@ stow_dotfiles() {
     stow -t "$HOME" --restow "$pkg"
   done
 
-  # OMZ expects themes in its own directory
-  ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
-  mkdir -p "$ZSH_CUSTOM/themes"
-  ln -sf "$DOTFILES/themes/.zsh2000-node/zsh2000-node.zsh-theme" \
-    "$ZSH_CUSTOM/themes/zsh2000-node.zsh-theme"
 }
 
 echo_next_steps() {
