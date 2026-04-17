@@ -397,7 +397,7 @@
     local      clean='%0F' # black foreground
     local   modified='%0F' # black foreground
     local  untracked='%0F' # black foreground
-    local conflicted='%1F' # red foreground
+    local conflicted='%15F' # bright white foreground
 
     local res
 
