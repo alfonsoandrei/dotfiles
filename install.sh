@@ -2,7 +2,7 @@
 set -e
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PACKAGES=(zsh git config ssh scripts nvim themes opencode gnupg)
+PACKAGES=(zsh git config ssh scripts nvim themes opencode tmux gnupg)
 
 install_brew() {
 
@@ -59,6 +59,15 @@ install_zsh_plugins() {
   if [ ! -d "$ZSH_CUSTOM/themes/powerlevel10k" ]; then
     echo "==> Installing Powerlevel10k theme..."
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k"
+  fi
+}
+
+install_tmux_plugins() {
+  TMUX_PLUGINS="$HOME/.tmux/plugins"
+
+  if [ ! -d "$TMUX_PLUGINS/tpm" ]; then
+    echo "==> Installing tmux TPM..."
+    git clone https://github.com/tmux-plugins/tpm "$TMUX_PLUGINS/tpm"
   fi
 }
 
@@ -122,6 +131,7 @@ main() {
   install_nvm
   install_neovim_node_deps
   install_zsh_plugins
+  install_tmux_plugins
   init_submodules
   create_local_templates
   stow_dotfiles

@@ -14,6 +14,7 @@ Personal macOS terminal configuration managed with [GNU Stow](https://www.gnu.or
 | `nvim` | `~/.config/nvim/` | Neovim config (submodule → [alfonsoandrei/neovim](https://github.com/alfonsoandrei/neovim)) |
 | `themes` | `~/.zsh2000-node/` | Zsh theme (submodule → [alfonsoandrei/zsh2000-node](https://github.com/alfonsoandrei/zsh2000-node)) |
 | `opencode` | `~/.config/opencode/` | Opencode skills and configuration |
+| `tmux` | `~/.tmux.conf` | tmux config with TPM plugins, image.nvim support |
 
 Machine-specific config (credentials, work aliases, AWS) lives in `~/.zshrc.local` — not tracked by git.
 
@@ -76,10 +77,10 @@ If you already have Homebrew, Oh My Zsh, and `stow` installed:
 cd ~/dotfiles
 
 # Dry-run first to catch conflicts
-stow --simulate zsh git config ssh scripts nvim themes opencode
+stow --simulate zsh git config ssh scripts nvim themes opencode tmux
 
 # Apply
-stow zsh git config ssh scripts nvim themes opencode
+stow zsh git config ssh scripts nvim themes opencode tmux
 ```
 
 If stow reports conflicts (existing files at the target paths), back them up first:

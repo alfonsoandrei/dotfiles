@@ -17,6 +17,15 @@ source $ZSH/oh-my-zsh.sh
 
 export EDITOR='nvim'
 
+# History settings
+HISTFILE=~/.zsh_history
+HISTSIZE=50000
+SAVEHIST=50000
+setopt HIST_IGNORE_ALL_DUPS  # Remove duplicate commands from history
+
+# Default to vi command mode (not insert)
+set -o vi
+
 for env_file in "$DOTFILES/zsh/envs"/*.zsh; do
     [ -f "$env_file" ] && source "$env_file"
 done
