@@ -11,6 +11,9 @@ theme = Rose Pine Moon
 # cursor-color = #879EB6
 
 font-size = 13
+window-padding-y = 0
+window-padding-x = 0
+window-padding-balance = true
 
 window-padding-color = extend
 
@@ -18,6 +21,8 @@ cursor-style-blink = true
 
 macos-titlebar-style = transparent
 macos-window-buttons = hidden
+macos-titlebar-proxy-icon = hidden
+macos-non-native-fullscreen = false
 title = " "
 
 # background-opacity = 0.7
