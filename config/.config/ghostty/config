@@ -25,6 +25,7 @@ macos-titlebar-proxy-icon = hidden
 macos-non-native-fullscreen = false
 title = " "
 
-# background-opacity = 0.7
-# or you can do macos-glass-clear
-# background-blur = macos-glass-regular
+background-opacity = 0.85
+background-blur-radius = 20
+# macos-glass-clear
+background-blur = macos-glass-regular

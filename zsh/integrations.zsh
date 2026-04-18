@@ -4,4 +4,12 @@ fi
 
 export KEYTIMEOUT=1
 
+# Vi mode - yank to system clipboard
+vi-yank-pbcopy() {
+  zle vi-yank
+  echo -n "$CUTBUFFER" | pbcopy
+}
+zle -N vi-yank-pbcopy
+bindkey -M vicmd 'y' vi-yank-pbcopy
+
 eval "$(zoxide init --cmd cd zsh)"

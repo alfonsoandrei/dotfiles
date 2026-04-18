@@ -21,7 +21,7 @@ export EDITOR='nvim'
 HISTFILE=~/.zsh_history
 HISTSIZE=50000
 SAVEHIST=50000
-setopt HIST_IGNORE_ALL_DUPS  # Remove duplicate commands from history
+setopt HIST_IGNORE_ALL_DUPS
 
 # Default to vi command mode (not insert)
 set -o vi
