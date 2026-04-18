@@ -65,10 +65,20 @@ install_zsh_plugins() {
 install_tmux_plugins() {
   TMUX_PLUGINS="$HOME/.tmux/plugins"
 
-  if [ ! -d "$TMUX_PLUGINS/tpm" ]; then
-    echo "==> Installing tmux TPM..."
-    git clone https://github.com/tmux-plugins/tpm "$TMUX_PLUGINS/tpm"
-  fi
+  clone_if_missing() {
+    local name="$1" url="$2"
+    if [ ! -d "$TMUX_PLUGINS/$name" ]; then
+      echo "==> Installing tmux plugin: $name..."
+      git clone "$url" "$TMUX_PLUGINS/$name"
+    fi
+  }
+
+  clone_if_missing tpm               https://github.com/tmux-plugins/tpm
+  clone_if_missing tmux-sensible     https://github.com/tmux-plugins/tmux-sensible
+  clone_if_missing tmux-resurrect    https://github.com/tmux-plugins/tmux-resurrect
+  clone_if_missing tmux-continuum    https://github.com/tmux-plugins/tmux-continuum
+  clone_if_missing vim-tmux-navigator https://github.com/christoomey/vim-tmux-navigator
+  clone_if_missing tmux              https://github.com/rose-pine/tmux
 }
 
 init_submodules() {

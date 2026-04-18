@@ -12,10 +12,13 @@ theme = Rose Pine Moon
 
 font-size = 13
 
+window-padding-color = extend
+
 cursor-style-blink = true
 
 macos-titlebar-style = transparent
 macos-window-buttons = hidden
+title = " "
 
 # background-opacity = 0.7
 # or you can do macos-glass-clear
