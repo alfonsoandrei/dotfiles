@@ -7,6 +7,7 @@ function fzf-pass-copy() {
   out=$(
     find "$HOME/.password-store" -name "*.gpg" -not -path "*/.git/*" |
       sed "s|$HOME/.password-store/||; s|.gpg$||" |
+      sort |
       fzf --prompt "🔑 > " \
         --preview "echo ' {}' && echo '----------------' && pass show {} | tail -n +2" \
         --bind "ctrl-j:down,ctrl-k:up" \
@@ -18,8 +19,8 @@ function fzf-pass-copy() {
     return
   fi
 
-  key=$(head -1 <<< "$out")
-  selection=$(tail -1 <<< "$out")
+  key=$(head -1 <<<"$out")
+  selection=$(tail -1 <<<"$out")
 
   if [[ "$key" == "ctrl-h" ]]; then
     echo -n "$selection" | pbcopy
