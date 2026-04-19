@@ -1,31 +1,29 @@
-# #####################
-# Themes
-# #####################
-# Rose Pine
-# Rose Pine Moon
-# TokyoNight Moon
-# TokyoNight Storm
-# Ayu Mirage
-# Catppuccin Frappe
-theme = Rose Pine Moon
-# cursor-color = #879EB6
+# --- Theme ---
+theme = Rose Pine
+# theme = Rose Pine Moon
+# theme = TokyoNight Moon
+# theme = TokyoNight Storm
+# theme = Ayu Mirage
+# theme = Catppuccin Frappe
 
+# --- Font ---
 font-size = 13
+
+# --- Window ---
 window-padding-y = 0
 window-padding-x = 0
 window-padding-balance = true
-
 window-padding-color = extend
-
 cursor-style-blink = true
-
-macos-titlebar-style = transparent
 macos-window-buttons = hidden
-macos-titlebar-proxy-icon = hidden
-macos-non-native-fullscreen = false
 title = " "
 
-background-opacity = 0.85
-background-blur-radius = 20
-# macos-glass-clear
+# --- Appearance ---
+macos-titlebar-style = transparent
+macos-titlebar-proxy-icon = hidden
+macos-non-native-fullscreen = false
+background-opacity = 0.80
+background-blur-radius = 90
+# background-blur =  macos-glass-clear
 background-blur = macos-glass-regular
+# cursor-color = #879EB6

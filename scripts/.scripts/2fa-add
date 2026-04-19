@@ -9,9 +9,9 @@ read -p "Require Touch? (y/N): " TOUCH
 CMD="ykman oath accounts add \"$NAME\" \"$SECRET\""
 
 if [[ "$TOUCH" =~ ^[Yy]$ ]]; then
-    CMD="$CMD --touch"
+  CMD="$CMD --touch"
 fi
 
 # Confirming before execution
-echo "Executing: ykman oath accounts add \"$NAME\" [SECRET] $( [[ "$TOUCH" =~ ^[Yy]$ ]] && echo "--touch" )"
+echo "Executing: ykman oath accounts add \"$NAME\" [SECRET] $([[ "$TOUCH" =~ ^[Yy]$ ]] && echo "--touch")"
 eval "$CMD"

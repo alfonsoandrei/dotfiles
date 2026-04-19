@@ -12,4 +12,10 @@ vi-yank-pbcopy() {
 zle -N vi-yank-pbcopy
 bindkey -M vicmd 'y' vi-yank-pbcopy
 
+vi-paste-pbpaste() {
+  LBUFFER+=$(pbpaste)
+}
+zle -N vi-paste-pbpaste
+bindkey -M vicmd 'p' vi-paste-pbpaste
+
 eval "$(zoxide init --cmd cd zsh)"

@@ -3,3 +3,6 @@
 
 # ── pass ─────────────────────────────────────────────────────────────────────
 # PASSWORD_STORE_REPO=<my_git_repo>
+
+# Obsidian Vault Path
+# export VAULT_DIR_NOTES=""
