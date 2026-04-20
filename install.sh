@@ -73,12 +73,12 @@ install_tmux_plugins() {
     fi
   }
 
-  clone_if_missing tpm               https://github.com/tmux-plugins/tpm
-  clone_if_missing tmux-sensible     https://github.com/tmux-plugins/tmux-sensible
-  clone_if_missing tmux-resurrect    https://github.com/tmux-plugins/tmux-resurrect
-  clone_if_missing tmux-continuum    https://github.com/tmux-plugins/tmux-continuum
+  clone_if_missing tpm https://github.com/tmux-plugins/tpm
+  clone_if_missing tmux-sensible https://github.com/tmux-plugins/tmux-sensible
+  clone_if_missing tmux-resurrect https://github.com/tmux-plugins/tmux-resurrect
+  clone_if_missing tmux-continuum https://github.com/tmux-plugins/tmux-continuum
   clone_if_missing vim-tmux-navigator https://github.com/christoomey/vim-tmux-navigator
-  clone_if_missing tmux              https://github.com/rose-pine/tmux
+  clone_if_missing tmux https://github.com/rose-pine/tmux
 }
 
 init_submodules() {
