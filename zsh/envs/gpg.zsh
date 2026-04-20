@@ -7,4 +7,4 @@ fi
 export GPG_TTY
 GPG_TTY="$(tty)"
 
-gpg-connect-agent updatestartuptty /bye 1> /dev/null
+gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
