@@ -53,3 +53,5 @@ fi
 
 # Obsidian Vault Path
 # export VAULT_DIR_NOTES=""
+
+eval "$(zoxide init --cmd cd zsh)"

@@ -18,4 +18,3 @@ vi-paste-pbpaste() {
 zle -N vi-paste-pbpaste
 bindkey -M vicmd 'p' vi-paste-pbpaste
 
-eval "$(zoxide init --cmd cd zsh)"
