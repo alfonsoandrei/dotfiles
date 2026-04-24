@@ -26,6 +26,9 @@ setopt HIST_IGNORE_ALL_DUPS
 # Default to vi command mode (not insert)
 set -o vi
 
+# Disable XON/XOFF flow control so Ctrl+S doesn't freeze terminal output
+[[ -t 0 ]] && stty -ixon
+
 for env_file in "$DOTFILES/zsh/envs"/*.zsh; do
     [ -f "$env_file" ] && source "$env_file"
 done
