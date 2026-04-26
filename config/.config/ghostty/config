@@ -10,16 +10,17 @@ theme = Rose Pine Moon
 font-size = 13
 
 # --- Window ---
+# window-decoration = false
 window-padding-y = 0
 window-padding-x = 0
 window-padding-balance = true
 window-padding-color = extend
 cursor-style-blink = true
 macos-window-buttons = hidden
-title = " "
+# title = " "
 
 # --- Appearance ---
-macos-titlebar-style = transparent
+macos-titlebar-style = hidden
 macos-titlebar-proxy-icon = hidden
 macos-non-native-fullscreen = false
 background-opacity = 0.85

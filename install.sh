@@ -81,10 +81,9 @@ install_tmux_plugins() {
   clone_if_missing tmux https://github.com/rose-pine/tmux
 }
 
-init_submodules() {
-  echo "==> Updating git submodules..."
-
-  git -C "$DOTFILES" submodule update --init --recursive
+apply_macos_defaults() {
+  echo "==> Applying macOS defaults..."
+  defaults write -g NSWindowShouldDragOnGesture -bool true
 }
 
 create_local_templates() {
@@ -127,7 +126,7 @@ echo_next_steps() {
   echo "✅ Done! Next steps:"
   echo "   1. Edit ~/.zshrc.local — add credentials and work-specific config"
   echo "   2. Edit ~/.gitconfig.local — add your name, email, and GPG signing key"
-  echo "   3. Restart your terminal"
+  echo "   3. Restart your terminal (macOS defaults applied)"
   echo "   4. Plug in YubiKey and run: ./setup-yubikey.sh"
   echo "   5. Set PASSWORD_STORE_REPO in ~/.zshrc.local, then run: ./setup-pass.sh"
 }
@@ -145,6 +144,7 @@ main() {
   init_submodules
   create_local_templates
   stow_dotfiles
+  apply_macos_defaults
 
   echo_next_steps
 }
