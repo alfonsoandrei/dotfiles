@@ -6,7 +6,7 @@ alias ......="cd ../../../../.."
 
 alias ls='eza --icons --group-directories-first'
 alias l='eza -lahb --icons --git --group-directories-first'
-alias lt='eza --tree --level=2 --icons --group-directories-first'
+alias lt='eza -lahb --tree --level=2 --icons --group-directories-first --ignore-glob "node_modules"'
 
 alias reload='source ~/.zshrc'
 alias treload='tmux source-file ~/.tmux.conf'
