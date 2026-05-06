@@ -12,6 +12,7 @@ alias reload='source ~/.zshrc'
 alias treload='tmux source-file ~/.tmux.conf'
 
 alias v=nvim
+alias vl='NVIM_APPNAME=nvim-lite nvim'
 alias lg='lazygit'
 
 alias 2fa='~/.scripts/2fa'

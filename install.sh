@@ -2,7 +2,7 @@
 set -e
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PACKAGES=(zsh git config ssh scripts nvim themes opencode tmux gnupg)
+PACKAGES=(zsh git config ssh scripts nvim nvim-lite themes opencode tmux gnupg)
 
 install_brew() {
 
