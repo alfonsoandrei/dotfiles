@@ -4,12 +4,7 @@ return {
   priority = 1000,
   opts = {
     dashboard = {
-      enabled = true,
-      sections = {
-        { section = "header" },
-        { section = "keys", gap = 1, padding = 1 },
-        { section = "startup" },
-      },
+      enabled = false,
     },
     picker = { enabled = true },
     notifier = { enabled = true },
