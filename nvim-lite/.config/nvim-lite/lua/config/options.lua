@@ -35,6 +35,11 @@ opt.scrolloff = 4
 opt.cursorline = true
 opt.showmode = false
 
+-- Clipboard
+-- yank into system clip board directly
+-- tmux cross panel copy
+opt.clipboard = "unnamedplus"
+
 -- Editing
 opt.expandtab = true
 opt.shiftwidth = 2
