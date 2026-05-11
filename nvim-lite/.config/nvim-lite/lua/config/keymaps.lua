@@ -10,11 +10,12 @@ map("n", "gi", function() Snacks.picker.lsp_implementations() end, { desc = "Got
 map("n", "gy", function() Snacks.picker.lsp_type_definitions() end, { desc = "Goto Type Definition" })
 map("n", "gD", vim.lsp.buf.declaration, { desc = "Goto Declaration" })
 map("n", "K", vim.lsp.buf.hover, { desc = "Hover" })
+
 map("n", "<leader>cr", vim.lsp.buf.rename, { desc = "Rename Symbol" })
 map({ "n", "x" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
 
 -- Diagnostics
-map("n", "<leader>r", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 map("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
 map("n", "]d", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
 
@@ -33,10 +34,16 @@ end, { noremap = true, silent = true, desc = "Toggle spell checking" })
 map("v", "S", function()
   local char = vim.fn.getcharstr()
   local pairs = {
-    ["("] = { "(", ")" }, [")"] = { "(", ")" }, ["b"] = { "(", ")" },
-    ["["] = { "[", "]" }, ["]"] = { "[", "]" },
-    ["{"] = { "{", "}" }, ["}"] = { "{", "}" }, ["B"] = { "{", "}" },
-    ["<"] = { "<", ">" }, [">"] = { "<", ">" },
+    ["("] = { "(", ")" },
+    [")"] = { "(", ")" },
+    ["b"] = { "(", ")" },
+    ["["] = { "[", "]" },
+    ["]"] = { "[", "]" },
+    ["{"] = { "{", "}" },
+    ["}"] = { "{", "}" },
+    ["B"] = { "{", "}" },
+    ["<"] = { "<", ">" },
+    [">"] = { "<", ">" },
   }
   local left, right
   if pairs[char] then
@@ -52,6 +59,7 @@ end, { noremap = true, desc = "Surround selection" })
 -- Better buffer navigation
 map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
+map("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Last Buffer" })
 map("n", "<leader>bd", "<cmd>bdelete<cr>", { desc = "Delete Buffer" })
 
 -- Clear search highlights

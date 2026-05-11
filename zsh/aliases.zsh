@@ -11,8 +11,8 @@ alias lt='eza -lahb --tree --level=2 --icons --group-directories-first --ignore-
 alias reload='source ~/.zshrc'
 alias treload='tmux source-file ~/.tmux.conf'
 
-alias v=nvim
-alias vl='NVIM_APPNAME=nvim-lite nvim'
+alias vo=nvim
+alias v='NVIM_APPNAME=nvim-lite nvim'
 alias lg='lazygit'
 
 alias 2fa='~/.scripts/2fa'
@@ -23,7 +23,7 @@ alias gp='git push'
 alias d=docker
 alias dc=docker-compose
 
-alias cat="bat --color=always"
+# alias cat="bat --color=always"
 alias top=btop
 alias c=clear
 

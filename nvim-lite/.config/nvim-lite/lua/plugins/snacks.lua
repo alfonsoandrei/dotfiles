@@ -19,7 +19,9 @@ return {
   keys = {
     -- Find
     { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
+    { "<leader>fF", function() Snacks.picker.files({ ignored = true, hidden = true }) end, desc = "Find Ignored/Hidden Files" },
     { "<leader>fg", function() Snacks.picker.grep() end, desc = "Grep" },
+    { "<leader>fG", function() Snacks.picker.grep({ ignored = true, hidden = true }) end, desc = "Grep (including Ignored/Hidden)" },
     { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
     { "<leader>fh", function() Snacks.picker.help() end, desc = "Help Pages" },
     { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent Files" },
