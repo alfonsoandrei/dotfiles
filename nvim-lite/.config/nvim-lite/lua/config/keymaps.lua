@@ -2,6 +2,8 @@ local map = vim.keymap.set
 
 -- General
 map("i", "jj", "<Esc>", { noremap = true, silent = true, desc = "Exit insert mode" })
+map("n", "<C-s>", "<cmd>w<cr>", { noremap = true, silent = true, desc = "Save file" })
+map("i", "<C-s>", "<Esc><cmd>w<cr>", { noremap = true, silent = true, desc = "Save file" })
 
 -- LSP navigation (uses Snacks.picker when available, falls back to vim.lsp.buf)
 map("n", "gd", function() Snacks.picker.lsp_definitions() end, { desc = "Goto Definition" })
