@@ -15,6 +15,7 @@ opt.termguicolors = true
 opt.scrolloff = 4
 opt.cursorline = true
 opt.showmode = false
+opt.cmdheight = 0
 
 -- Clipboard
 -- yank into system clip board directly
