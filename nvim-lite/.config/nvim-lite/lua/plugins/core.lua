@@ -7,6 +7,10 @@ return {
     opts = {
       variant = "moon",
       disable_background = true,
+      disable_italics = true,
+      highlight_groups = {
+        Keyword = { fg = "#FFB5FF" },
+      },
     },
     config = function(_, opts)
       require("rose-pine").setup(opts)
