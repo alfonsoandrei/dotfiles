@@ -42,7 +42,18 @@ return {
     "folke/todo-comments.nvim",
     lazy = false,
     dependencies = { "nvim-lua/plenary.nvim" },
-    opts = {},
+    opts = {
+      highlight = {
+        keyword = "bg",
+        pattern = {
+          [[.*<(KEYWORDS)\s*:]],
+          [[.*<(KEYWORDS)\s*\(.*\)\s*:]],
+        },
+      },
+      search = {
+        pattern = [[\b(KEYWORDS)(\([^)]*\))?:]],
+      },
+    },
   },
   {
     "folke/ts-comments.nvim",

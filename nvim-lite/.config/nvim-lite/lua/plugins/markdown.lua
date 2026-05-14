@@ -41,6 +41,9 @@ return {
     ft = { "markdown" },
     -- If :MarkdownPreview does nothing, run: cd ~/.local/share/nvim-lite/lazy/markdown-preview.nvim/app && yarn
     build = "cd app && yarn",
+    init = function()
+      vim.g.mkdp_markdown_css = vim.fn.expand("~/.config/nvim-lite/css/markdown-preview.css")
+    end,
     keys = {
       { "<leader>mp", "<cmd>MarkdownPreview<cr>", desc = "Toggle markdown preview" },
     },
