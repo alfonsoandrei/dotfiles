@@ -10,6 +10,8 @@ return {
       disable_italics = true,
       highlight_groups = {
         Keyword = { fg = "#FFB5FF" },
+        PmenuMatch = { fg = "#FFB5FF", bold = true },
+        PmenuMatchSel = { fg = "#FFB5FF", bold = true },
       },
     },
     config = function(_, opts)

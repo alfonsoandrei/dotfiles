@@ -17,6 +17,10 @@ opt.cursorline = true
 opt.showmode = false
 opt.cmdheight = 0
 
+-- Command-line completion
+opt.wildoptions = "pum,fuzzy"
+opt.wildmode = "noselect:lastused,full"
+
 -- Clipboard
 -- yank into system clip board directly
 -- tmux cross panel copy

@@ -52,6 +52,17 @@ autocmd("FileType", {
   end,
 })
 
+-- Auto-trigger command-line completion as you type
+autocmd("CmdlineChanged", {
+  group = augroup("cmdline-autocomplete", { clear = true }),
+  pattern = ":",
+  callback = function()
+    if vim.fn.pumvisible() == 0 and vim.fn.wildmenumode() == 0 then
+      vim.fn.wildtrigger()
+    end
+  end,
+})
+
 -- Resize splits on window resize
 autocmd("VimResized", {
   group = augroup("resize-splits", { clear = true }),
