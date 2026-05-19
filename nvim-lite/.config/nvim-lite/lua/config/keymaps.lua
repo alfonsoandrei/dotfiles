@@ -18,8 +18,8 @@ map({ "n", "x" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" 
 
 -- Diagnostics
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
-map("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev Diagnostic" })
-map("n", "]d", vim.diagnostic.goto_next, { desc = "Next Diagnostic" })
+map("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, { desc = "Prev Diagnostic" })
+map("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, { desc = "Next Diagnostic" })
 
 -- Files
 map("n", "<leader>cR", function() Snacks.rename.rename_file() end, { desc = "Rename File" })

@@ -2,7 +2,7 @@ local opt = vim.opt
 
 vim.g.mapleader = " "
 
--- Remap .mjs filetype so vtsls doesn't attach and crash trying to load tsconfig.json.
+-- Remap .mjs filetype so ts_ls doesn't attach and crash trying to load tsconfig.json.
 vim.filetype.add({ extension = { mjs = "mjs" } })
 vim.treesitter.language.register("javascript", "mjs")
 
