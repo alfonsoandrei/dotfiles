@@ -9,6 +9,20 @@ autocmd("TextYankPost", {
   end,
 })
 
+-- lazy.nvim disables loadplugins and primes ftdetect itself, so the first file
+-- opened after startup can load with no filetype. Re-detect when that happens.
+autocmd({ "BufReadPost", "BufNewFile" }, {
+  group = augroup("ensure-filetype", { clear = true }),
+  callback = function(args)
+    if vim.bo[args.buf].filetype == "" then
+      local ft = vim.filetype.match({ buf = args.buf })
+      if ft then
+        vim.bo[args.buf].filetype = ft
+      end
+    end
+  end,
+})
+
 -- Markdown settings
 autocmd("FileType", {
   group = augroup("markdown-settings", { clear = true }),
