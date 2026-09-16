@@ -21,6 +21,12 @@ map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 map("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, { desc = "Prev Diagnostic" })
 map("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, { desc = "Next Diagnostic" })
 
+-- Git hunks (staged and unstaged)
+map("n", "]h", function() require("gitsigns").nav_hunk("next", { target = "all" }) end, { desc = "Next Git Hunk" })
+map("n", "[h", function() require("gitsigns").nav_hunk("prev", { target = "all" }) end, { desc = "Prev Git Hunk" })
+map("n", "]H", function() require("gitsigns").nav_hunk("last", { target = "all" }) end, { desc = "Last Git Hunk" })
+map("n", "[H", function() require("gitsigns").nav_hunk("first", { target = "all" }) end, { desc = "First Git Hunk" })
+
 -- Files
 map("n", "<leader>cR", function() Snacks.rename.rename_file() end, { desc = "Rename File" })
 
