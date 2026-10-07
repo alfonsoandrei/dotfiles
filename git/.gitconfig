@@ -5,13 +5,21 @@
 
 [diff]
     tool = nvim
+    algorithm = histogram
 [difftool "nvim"]
     cmd = nvim -d "$LOCAL" "$REMOTE"
 [merge]
     tool = nvim
     gpgSign = true
+    conflictStyle = zdiff3
 [mergetool "nvim"]
     cmd = nvim -d $LOCAL $REMOTE $BASE $MERGED
+[push]
+    autoSetupRemote = true
+[fetch]
+    prune = true
+[rerere]
+    enabled = true
 [gpg]
     program = gpg2
 [commit]
