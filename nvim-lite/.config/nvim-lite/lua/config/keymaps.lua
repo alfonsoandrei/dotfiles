@@ -26,6 +26,7 @@ map("n", "]h", function() require("gitsigns").nav_hunk("next", { target = "all" 
 map("n", "[h", function() require("gitsigns").nav_hunk("prev", { target = "all" }) end, { desc = "Prev Git Hunk" })
 map("n", "]H", function() require("gitsigns").nav_hunk("last", { target = "all" }) end, { desc = "Last Git Hunk" })
 map("n", "[H", function() require("gitsigns").nav_hunk("first", { target = "all" }) end, { desc = "First Git Hunk" })
+map("n", "<leader>gp", function() require("gitsigns").preview_hunk_inline() end, { desc = "Preview Git Hunk Inline" })
 
 -- Files
 map("n", "<leader>cR", function() Snacks.rename.rename_file() end, { desc = "Rename File" })
