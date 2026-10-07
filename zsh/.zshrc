@@ -16,6 +16,7 @@ plugins=(git fzf zsh-autosuggestions zsh-syntax-highlighting pass docker aws)
 source $ZSH/oh-my-zsh.sh
 
 export EDITOR='nvim'
+export NVIM_APPNAME='nvim-lite'
 
 # History settings
 HISTFILE=~/.zsh_history

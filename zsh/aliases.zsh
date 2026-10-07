@@ -11,7 +11,7 @@ alias lt='eza -lahb --tree --level=2 --icons --group-directories-first --ignore-
 alias reload='source ~/.zshrc'
 alias treload='tmux source-file ~/.tmux.conf'
 
-alias vo=nvim
+alias vo='NVIM_APPNAME=nvim nvim'
 alias v='NVIM_APPNAME=nvim-lite nvim'
 alias lg='NVIM_APPNAME=nvim-lite lazygit'
 
