@@ -13,7 +13,7 @@ alias treload='tmux source-file ~/.tmux.conf'
 
 alias vo=nvim
 alias v='NVIM_APPNAME=nvim-lite nvim'
-alias lg='lazygit'
+alias lg='NVIM_APPNAME=nvim-lite lazygit'
 
 alias 2fa='~/.scripts/2fa'
 alias 2fa-add='~/.scripts/2fa-add'
