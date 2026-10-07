@@ -9,11 +9,13 @@
 [difftool "nvim"]
     cmd = nvim -d "$LOCAL" "$REMOTE"
 [merge]
-    tool = nvim
+    tool = codediff
     gpgSign = true
     conflictStyle = zdiff3
-[mergetool "nvim"]
-    cmd = nvim -d $LOCAL $REMOTE $BASE $MERGED
+[mergetool]
+    keepBackup = false
+[mergetool "codediff"]
+    cmd = NVIM_APPNAME=nvim-lite nvim \"$MERGED\" -c \"CodeDiff --exit-on-close merge \\\"$MERGED\\\"\"
 [push]
     autoSetupRemote = true
 [fetch]

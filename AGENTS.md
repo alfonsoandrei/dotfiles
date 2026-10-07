@@ -17,7 +17,7 @@ dotfiles/
 ├── setup-yubikey.sh    # GPG SSH agent config
 ├── setup-pass.sh       # password-store setup
 ├── zsh/                # Oh My Zsh + plugins + aliases
-├── git/                # delta pager, nvim diff/merge
+├── git/                # delta pager, nvim diff, codediff merge
 ├── config/             # Ghostty, btop, gitignore
 ├── ssh/                # GPG SSH agent, OrbStack
 ├── scripts/            # 2fa (ykman), pass picker
@@ -32,7 +32,7 @@ dotfiles/
 | Task | Location | Notes |
 |------|----------|-------|
 | Shell config | `zsh/` | `.zshrc`, `aliases.zsh`, `functions.zsh` |
-| Git config | `git/.gitconfig` | delta, nvim merge, GPG signing |
+| Git config | `git/.gitconfig` | delta, codediff merge, GPG signing |
 | Custom scripts | `scripts/.scripts/` | 2fa, pass picker |
 | Password store | `zsh/pass.zsh` | pass integration |
 | Neovim config | `nvim/.config/nvim/` | Submodule repo |
