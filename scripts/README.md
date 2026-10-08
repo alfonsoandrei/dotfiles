@@ -9,7 +9,7 @@ Wrapper scripts for `ykman` (YubiKey Manager) to manage and retrieve 2FA codes.
 ### `2fa [query]`
 Retrieve a TOTP code from your YubiKey.
 - **Interactive Selection**: If no query is provided, or if multiple accounts match the query, an `fzf` picker will open.
-- **Automatic Copy**: The 6-digit code is automatically copied to your clipboard (`pbcopy`).
+- **Automatic Copy**: The 6-digit code is automatically copied to your clipboard.
 - **Touch Prompt**: If the account requires a physical touch, a prompt will appear: `👉 Touch your YubiKey...`.
 - **Validity**: Displays the code and the remaining seconds before it expires.
 

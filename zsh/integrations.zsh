@@ -5,16 +5,16 @@ fi
 export KEYTIMEOUT=1
 
 # Vi mode - yank to system clipboard
-vi-yank-pbcopy() {
+vi-yank-clipboard() {
   zle vi-yank
-  echo -n "$CUTBUFFER" | pbcopy
+  echo -n "$CUTBUFFER" | "$HOME/.local/bin/clipboard-copy"
 }
-zle -N vi-yank-pbcopy
-bindkey -M vicmd 'y' vi-yank-pbcopy
+zle -N vi-yank-clipboard
+bindkey -M vicmd 'y' vi-yank-clipboard
 
-vi-paste-pbpaste() {
-  LBUFFER+=$(pbpaste)
+vi-paste-clipboard() {
+  LBUFFER+=$("$HOME/.local/bin/clipboard-paste")
 }
-zle -N vi-paste-pbpaste
-bindkey -M vicmd 'p' vi-paste-pbpaste
+zle -N vi-paste-clipboard
+bindkey -M vicmd 'p' vi-paste-clipboard
 

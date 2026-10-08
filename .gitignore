@@ -2,6 +2,9 @@
 # .zshrc.local, .gitconfig.local, etc.
 *.local
 *.local.zsh
+# Stow target for ~/.local/bin clipboard helpers.
+!scripts/.local/
+!scripts/.local/**
 *.history
 **/local/
 

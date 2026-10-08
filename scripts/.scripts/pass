@@ -23,7 +23,7 @@ function fzf-pass-copy() {
   selection=$(tail -1 <<<"$out")
 
   if [[ "$key" == "ctrl-h" ]]; then
-    echo -n "$selection" | pbcopy
+    echo -n "$selection" | "$HOME/.local/bin/clipboard-copy"
     echo "👤 Account name copied: $selection" >&2
   else
     pass -c "$selection" >/dev/null 2>&1

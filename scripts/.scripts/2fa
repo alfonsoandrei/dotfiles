@@ -35,7 +35,7 @@ CODE=$(ykman oath accounts code --single "$ACCOUNT")
 echo -e "\r\033[K✅ Code for '$ACCOUNT' copied to clipboard!"
 
 # Copy to clipboard
-echo -n "$CODE" | pbcopy
+echo -n "$CODE" | "$HOME/.local/bin/clipboard-copy"
 
 # Output result
 REMAINING=$((30 - ($(date +%s) % 30)))
