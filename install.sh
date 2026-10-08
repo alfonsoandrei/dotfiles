@@ -2,166 +2,51 @@
 set -e
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PACKAGES=(zsh git config ssh scripts nvim-lite themes opencode tmux gnupg)
+# shellcheck source=install/common.sh
+source "$DOTFILES/install/common.sh"
 
-install_brew() {
+detect_platform() {
+  local uname_s os_release
+  uname_s="$(uname -s)"
+  os_release="${DOTFILES_OS_RELEASE:-/etc/os-release}"
 
-  if ! command -v brew &>/dev/null; then
-    echo "==> Installing Homebrew..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    eval "$(/opt/homebrew/bin/brew shellenv)" 2>/dev/null || true
+  if [ "$uname_s" = "Darwin" ]; then
+    echo macos
+    return
   fi
 
-  echo "==> Installing packages from Brewfile..."
-  brew bundle --file="$DOTFILES/Brewfile"
-}
-
-install_omz() {
-
-  if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    echo "==> Installing Oh My Zsh..."
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-  fi
-}
-
-install_nvm() {
-
-  if [ ! -d "$HOME/.nvm" ]; then
-    echo "==> Installing NVM..."
-
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-
-    nvm install --lts
-  fi
-}
-
-install_neovim_node_deps() {
-
-  echo "==> Installing Neovim Node.js dependencies..."
-  npm install -g neovim tree-sitter-cli eslint_d @mermaid-js/mermaid-cli
-}
-
-install_zsh_plugins() {
-  ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
-
-  if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
-    echo "==> Installing zsh-autosuggestions..."
-    git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+  if [ "$uname_s" = "Linux" ] && [ -f "$os_release" ] && grep -qi omarchy "$os_release"; then
+    echo omarchy
+    return
   fi
 
-  if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
-    echo "==> Installing zsh-syntax-highlighting..."
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
-  fi
-
-  if [ ! -d "$ZSH_CUSTOM/themes/powerlevel10k" ]; then
-    echo "==> Installing Powerlevel10k theme..."
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k"
-  fi
-}
-
-install_tmux_plugins() {
-  TMUX_PLUGINS="$HOME/.tmux/plugins"
-
-  clone_if_missing() {
-    local name="$1" url="$2"
-    if [ ! -d "$TMUX_PLUGINS/$name" ]; then
-      echo "==> Installing tmux plugin: $name..."
-      git clone "$url" "$TMUX_PLUGINS/$name"
-    fi
-  }
-
-  clone_if_missing tpm https://github.com/tmux-plugins/tpm
-  clone_if_missing tmux-sensible https://github.com/tmux-plugins/tmux-sensible
-  clone_if_missing tmux-resurrect https://github.com/tmux-plugins/tmux-resurrect
-  clone_if_missing tmux-continuum https://github.com/tmux-plugins/tmux-continuum
-  clone_if_missing vim-tmux-navigator https://github.com/christoomey/vim-tmux-navigator
-  clone_if_missing tmux https://github.com/rose-pine/tmux
-}
-
-apply_macos_defaults() {
-  echo "==> Applying macOS defaults..."
-  defaults write -g NSWindowShouldDragOnGesture -bool true
-}
-
-init_submodules() {
-  echo "==> Updating git submodules..."
-  git -C "$DOTFILES" submodule update --init --recursive
-}
-
-create_local_templates() {
-
-  if [ ! -f "$DOTFILES/zsh/.zshrc.local" ]; then
-    echo "==> Creating zsh/.zshrc.local from example..."
-    cp "$DOTFILES/zsh/.zshrc.local.example" "$DOTFILES/zsh/.zshrc.local"
-    echo "   ⚠️  Fill in your credentials in ~/.zshrc.local"
-  fi
-
-  if [ ! -f "$DOTFILES/git/.gitconfig.local" ]; then
-    echo "==> Creating git/.gitconfig.local from example..."
-    cp "$DOTFILES/git/.gitconfig.local.example" "$DOTFILES/git/.gitconfig.local"
-    echo "   ⚠️  Fill in your name, email, and GPG key in ~/.gitconfig.local"
-  fi
-}
-
-stow_dotfiles() {
-  local pkg failed=0
-
-  if ! command -v stow >/dev/null 2>&1; then
-    echo "Error: stow is not installed." >&2
-    exit 1
-  fi
-
-  echo "==> Checking dotfiles for stow conflicts..."
-  ln -sf "$DOTFILES" "$HOME/dotfiles"
-
-  for pkg in "${PACKAGES[@]}"; do
-    if ! stow -n -d "$DOTFILES" -t "$HOME" "$pkg"; then
-      failed=1
-    fi
-  done
-
-  if [ "$failed" -ne 0 ]; then
-    echo "Error: stow found conflicts. Move the existing files aside, then re-run ./install.sh." >&2
-    exit 1
-  fi
-
-  echo "==> Symlinking dotfiles with stow..."
-  for pkg in "${PACKAGES[@]}"; do
-    echo "   stow $pkg"
-    stow -d "$DOTFILES" -t "$HOME" --restow "$pkg"
-  done
-}
-
-echo_next_steps() {
-
-  echo ""
-  echo "✅ Done! Next steps:"
-  echo "   1. Edit ~/.zshrc.local — add credentials and work-specific config"
-  echo "   2. Edit ~/.gitconfig.local — add your name, email, and GPG signing key"
-  echo "   3. Restart your terminal (macOS defaults applied)"
-  echo "   4. Plug in YubiKey and run: ./setup-yubikey.sh"
-  echo "   5. Set PASSWORD_STORE_REPO in ~/.zshrc.local, then run: ./setup-pass.sh"
+  echo unsupported
 }
 
 main() {
+  local platform
+  platform="$(detect_platform)"
 
-  echo "==> Starting dotfiles setup..."
+  echo "==> Starting dotfiles setup ($platform)..."
 
-  install_brew
-  install_omz
-  install_nvm
-  install_neovim_node_deps
-  install_zsh_plugins
-  install_tmux_plugins
-  init_submodules
-  create_local_templates
-  stow_dotfiles
-  apply_macos_defaults
-
-  echo_next_steps
+  case "$platform" in
+    macos)
+      # shellcheck source=install/macos.sh
+      source "$DOTFILES/install/macos.sh"
+      install_macos
+      ;;
+    omarchy)
+      # shellcheck source=install/omarchy.sh
+      source "$DOTFILES/install/omarchy.sh"
+      install_omarchy
+      ;;
+    *)
+      echo "Error: unsupported platform ($platform)." >&2
+      exit 1
+      ;;
+  esac
 }
 
-main
+if [ "${BASH_SOURCE[0]}" = "$0" ]; then
+  main
+fi
