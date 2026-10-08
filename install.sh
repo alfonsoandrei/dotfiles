@@ -86,6 +86,11 @@ apply_macos_defaults() {
   defaults write -g NSWindowShouldDragOnGesture -bool true
 }
 
+init_submodules() {
+  echo "==> Updating git submodules..."
+  git -C "$DOTFILES" submodule update --init --recursive
+}
+
 create_local_templates() {
 
   if [ ! -f "$DOTFILES/zsh/.zshrc.local" ]; then
@@ -102,22 +107,32 @@ create_local_templates() {
 }
 
 stow_dotfiles() {
+  local pkg failed=0
+
+  if ! command -v stow >/dev/null 2>&1; then
+    echo "Error: stow is not installed." >&2
+    exit 1
+  fi
+
+  echo "==> Checking dotfiles for stow conflicts..."
+  ln -sf "$DOTFILES" "$HOME/dotfiles"
+
+  for pkg in "${PACKAGES[@]}"; do
+    if ! stow -n -d "$DOTFILES" -t "$HOME" "$pkg"; then
+      failed=1
+    fi
+  done
+
+  if [ "$failed" -ne 0 ]; then
+    echo "Error: stow found conflicts. Move the existing files aside, then re-run ./install.sh." >&2
+    exit 1
+  fi
 
   echo "==> Symlinking dotfiles with stow..."
-  ln -sf "$DOTFILES" "$HOME/dotfiles"
-  cd "$DOTFILES"
-
-  # Adopt existing files into repo, then restore repo versions
-  for pkg in "${PACKAGES[@]}"; do
-    stow -t "$HOME" --adopt "$pkg" 2>/dev/null || true
-  done
-  git -C "$DOTFILES" checkout -- .
-
   for pkg in "${PACKAGES[@]}"; do
     echo "   stow $pkg"
-    stow -t "$HOME" --restow "$pkg"
+    stow -d "$DOTFILES" -t "$HOME" --restow "$pkg"
   done
-
 }
 
 echo_next_steps() {
