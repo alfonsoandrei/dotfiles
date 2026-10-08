@@ -7,7 +7,7 @@
     tool = nvim
     algorithm = histogram
 [difftool "nvim"]
-    cmd = nvim -d "$LOCAL" "$REMOTE"
+    cmd = NVIM_APPNAME=nvim-lite nvim -d "$LOCAL" "$REMOTE"
 [merge]
     tool = codediff
     gpgSign = true

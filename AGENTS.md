@@ -21,7 +21,7 @@ dotfiles/
 ├── config/             # Ghostty, btop, gitignore
 ├── ssh/                # GPG SSH agent, OrbStack
 ├── scripts/            # 2fa (ykman), pass picker
-├── nvim/               # Neovim (submodule)
+├── nvim-lite/          # Neovim config
 ├── themes/             # zsh2000-node (submodule)
 ├── opencode/           # Opencode skills/config
 └── gnupg/              # GPG public keys
@@ -35,7 +35,7 @@ dotfiles/
 | Git config | `git/.gitconfig` | delta, codediff merge, GPG signing |
 | Custom scripts | `scripts/.scripts/` | 2fa, pass picker |
 | Password store | `zsh/pass.zsh` | pass integration |
-| Neovim config | `nvim/.config/nvim/` | Submodule repo |
+| Neovim config | `nvim-lite/.config/nvim-lite/` | Stow package, `NVIM_APPNAME=nvim-lite` |
 | Zsh theme | `themes/.zsh2000-node/` | Submodule repo |
 
 ## COMMANDS
@@ -68,6 +68,6 @@ Machine-specific config in `~/.zshrc.local` and `~/.gitconfig.local` - NEVER com
 ## NOTES
 
 - Zsh theme: submodule at `themes/.zsh2000-node/`
-- Neovim config: submodule at `nvim/.config/nvim/`
+- Neovim config: `nvim-lite/.config/nvim-lite/` via `NVIM_APPNAME=nvim-lite`
 - SSH uses GPG agent: `gpg-connect-agent UPDATESTARTUPTTY`
 - Ghostty config: `~/.config/ghostty/`

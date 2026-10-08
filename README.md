@@ -11,7 +11,7 @@ Personal macOS terminal configuration managed with [GNU Stow](https://www.gnu.or
 | `config` | `~/.config/git/ignore`, `~/.config/btop/btop.conf` | Global gitignore, btop settings |
 | `ssh` | `~/.ssh/config` | GPG SSH agent, OrbStack integration |
 | `scripts` | `~/.scripts/` | [2FA (ykman)](scripts/README.md#2fa-yubikey-oath), [pass picker](scripts/README.md#pass), JSON log formatter |
-| `nvim` | `~/.config/nvim/` | Neovim config (submodule → [alfonsoandrei/neovim](https://github.com/alfonsoandrei/neovim)) |
+| `nvim-lite` | `~/.config/nvim-lite/` | Neovim config (`NVIM_APPNAME=nvim-lite`) |
 | `themes` | `~/.zsh2000-node/` | Zsh theme (submodule → [alfonsoandrei/zsh2000-node](https://github.com/alfonsoandrei/zsh2000-node)) |
 | `opencode` | `~/.config/opencode/` | Opencode skills and configuration |
 | `tmux` | `~/.tmux.conf` | tmux config with TPM plugins, image.nvim support |
@@ -28,7 +28,7 @@ Machine-specific config (credentials, work aliases, AWS) lives in `~/.zshrc.loca
 git clone --recurse-submodules https://github.com/alfonsoandrei/dotfiles.git ~/dotfiles
 ```
 
-> `--recurse-submodules` pulls the nvim config and zsh2000-node theme in one shot.
+> `--recurse-submodules` pulls the zsh2000-node theme.
 
 ### 2. Run the bootstrap script
 
@@ -77,10 +77,10 @@ If you already have Homebrew, Oh My Zsh, and `stow` installed:
 cd ~/dotfiles
 
 # Dry-run first to catch conflicts
-stow --simulate zsh git config ssh scripts nvim themes opencode tmux
+stow --simulate zsh git config ssh scripts nvim-lite themes opencode tmux
 
 # Apply
-stow zsh git config ssh scripts nvim themes opencode tmux
+stow zsh git config ssh scripts nvim-lite themes opencode tmux
 ```
 
 If stow reports conflicts (existing files at the target paths), back them up first:
@@ -137,4 +137,4 @@ cd ~/dotfiles && stow wezterm
 git submodule update --remote --merge
 ```
 
-This pulls the latest commits from both the nvim config and zsh2000-node theme repos.
+This pulls the latest commits from the zsh2000-node theme repo.
