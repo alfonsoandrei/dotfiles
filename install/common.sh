@@ -75,8 +75,9 @@ create_local_templates() {
 }
 
 configure_gpg_agent() {
-  local conf pinentry
-  conf="$HOME/.gnupg/gpg-agent.conf"
+  local gpg_home conf pinentry tmp
+  gpg_home="${GNUPGHOME:-$HOME/.gnupg}"
+  conf="$gpg_home/gpg-agent.conf"
   pinentry="$HOME/.local/bin/pinentry-auto"
 
   if [ ! -x "$pinentry" ]; then
@@ -84,15 +85,32 @@ configure_gpg_agent() {
     exit 1
   fi
 
-  mkdir -p "$HOME/.gnupg"
-  chmod 700 "$HOME/.gnupg"
+  mkdir -p "$gpg_home"
+  chmod 700 "$gpg_home"
 
-  # gpg-agent does not expand ~, and a stowed conf cannot hold a per-machine path.
+  # gpg-agent does not expand ~. A missing file or an old Stow symlink gets the
+  # template. An existing regular file keeps every other setting.
   if [ -L "$conf" ] || [ ! -e "$conf" ]; then
     rm -f "$conf"
+    sed "s|__PINENTRY__|$pinentry|" "$DOTFILES/install/gpg-agent.conf.in" > "$conf"
+  else
+    tmp="$(mktemp)"
+    awk -v pin="$pinentry" '
+      BEGIN { found = 0 }
+      /^[[:space:]]*pinentry-program[[:space:]]/ {
+        if (!found) {
+          print "pinentry-program " pin
+          found = 1
+        }
+        next
+      }
+      { print }
+      END {
+        if (!found) print "pinentry-program " pin
+      }
+    ' "$conf" > "$tmp"
+    mv "$tmp" "$conf"
   fi
-
-  sed "s|__PINENTRY__|$pinentry|" "$DOTFILES/install/gpg-agent.conf.in" > "$conf"
   chmod 600 "$conf"
 }
 
