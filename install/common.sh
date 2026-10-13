@@ -6,7 +6,8 @@ install_omz() {
 
   if [ ! -d "$HOME/.oh-my-zsh" ]; then
     echo "==> Installing Oh My Zsh..."
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    RUNZSH=no CHSH=no KEEP_ZSHRC=yes \
+      sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
   fi
 }
 
@@ -96,22 +97,48 @@ configure_gpg_agent() {
   else
     tmp="$(mktemp)"
     awk -v pin="$pinentry" '
-      BEGIN { found = 0 }
+      BEGIN { found_pin = 0; found_ssh = 0 }
+      /^[[:space:]]*enable-ssh-support([[:space:]]|$)/ {
+        found_ssh = 1
+      }
       /^[[:space:]]*pinentry-program[[:space:]]/ {
-        if (!found) {
+        if (!found_pin) {
           print "pinentry-program " pin
-          found = 1
+          found_pin = 1
         }
         next
       }
       { print }
       END {
-        if (!found) print "pinentry-program " pin
+        if (!found_pin) print "pinentry-program " pin
+        if (!found_ssh) print "enable-ssh-support"
       }
     ' "$conf" > "$tmp"
     mv "$tmp" "$conf"
   fi
   chmod 600 "$conf"
+}
+
+ensure_dotfiles_link() {
+  local home_dotfiles existing
+  home_dotfiles="$HOME/dotfiles"
+
+  if [ -L "$home_dotfiles" ] || [ -d "$home_dotfiles" ]; then
+    if existing="$(cd "$home_dotfiles" 2>/dev/null && pwd -P)"; then
+      if [ "$existing" != "$DOTFILES" ]; then
+        echo "Error: $home_dotfiles points to $existing, expected $DOTFILES." >&2
+        exit 1
+      fi
+      return
+    fi
+  fi
+
+  if [ -e "$home_dotfiles" ]; then
+    echo "Error: $home_dotfiles exists and is not a directory/symlink to this repo." >&2
+    exit 1
+  fi
+
+  ln -s "$DOTFILES" "$home_dotfiles"
 }
 
 stow_dotfiles() {
@@ -123,7 +150,7 @@ stow_dotfiles() {
   fi
 
   echo "==> Checking dotfiles for stow conflicts..."
-  ln -sf "$DOTFILES" "$HOME/dotfiles"
+  ensure_dotfiles_link
 
   for pkg in "${PACKAGES[@]}"; do
     if ! stow -n -d "$DOTFILES" -t "$HOME" "$pkg"; then

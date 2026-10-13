@@ -8,6 +8,11 @@ fi
 export ZSH="$HOME/.oh-my-zsh"
 export DOTFILES="$HOME/dotfiles"
 
+# Omarchy helpers live here; no-op on macOS.
+if [ -d "$HOME/.local/share/omarchy/bin" ]; then
+  export PATH="$HOME/.local/share/omarchy/bin:$PATH"
+fi
+
 # ZSH_THEME="zsh2000-node"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
