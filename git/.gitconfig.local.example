@@ -7,6 +7,12 @@
     email = you@example.com
     signingkey = YOUR_GPG_KEY_FINGERPRINT
 
+# If you do not use commit signing:
+# [commit]
+#     gpgSign = false
+# [merge]
+#     gpgSign = false
+
 # Optionally use a different identity inside work repos:
 # [includeIf "gitdir:~/work/"]
 #     path = ~/work/.gitconfig-work

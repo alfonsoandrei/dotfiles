@@ -15,6 +15,7 @@ dotfiles/
 ├── install.sh          # Detects platform and dispatches
 ├── install/            # Shared, macOS, and Omarchy installer steps
 ├── Brewfile            # Homebrew packages
+├── setup-gpg-agent.sh  # Render gpg-agent.conf and restart gpg-agent
 ├── setup-yubikey.sh    # Render gpg-agent.conf, import card key
 ├── setup-pass.sh       # Clone/configure password store
 ├── zsh/                # Oh My Zsh, aliases, functions
@@ -51,6 +52,7 @@ dotfiles/
 ./install.sh
 cd ~/dotfiles && stow <package>
 git submodule update --remote --merge
+./setup-gpg-agent.sh
 ./setup-yubikey.sh
 ./setup-pass.sh
 ```

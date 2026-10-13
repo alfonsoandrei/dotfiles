@@ -18,7 +18,7 @@ Terminal configuration managed with [GNU Stow](https://www.gnu.org/software/stow
 | `tmux` | `~/.tmux.conf` | tmux config and TPM plugins |
 | `gnupg` | `~/public-keys/` | Public keys used by `setup-pass.sh` |
 
-`gpg-agent.conf` is generated, not stowed. `./install.sh` and `./setup-yubikey.sh` render it from `install/gpg-agent.conf.in` into `GNUPGHOME` (default `~/.gnupg`) with an absolute `pinentry-auto` path.
+`gpg-agent.conf` is generated, not stowed. `./install.sh`, `./setup-gpg-agent.sh`, and `./setup-yubikey.sh` render it from `install/gpg-agent.conf.in` into `GNUPGHOME` (default `~/.gnupg`) with an absolute `pinentry-auto` path.
 
 Machine-specific files (`~/.zshrc.local`, `~/.gitconfig.local`) are sourced and never committed.
 
@@ -70,7 +70,15 @@ nvim ~/.gitconfig.local
 
 See `zsh/.zshrc.local.example` and `git/.gitconfig.local.example`.
 
-### 4. Optional YubiKey setup
+### 4. Configure gpg-agent
+
+```bash
+./setup-gpg-agent.sh
+```
+
+This enables GPG-based SSH auth and sets pinentry for the current machine.
+
+### 5. Optional YubiKey setup
 
 ```bash
 ./setup-yubikey.sh
@@ -78,7 +86,7 @@ See `zsh/.zshrc.local.example` and `git/.gitconfig.local.example`.
 
 This restarts `gpg-agent`, imports your card key, and sets trust. If your card has no URL (`gpg --edit-card` → `url`), the script prints manual import steps.
 
-### 5. Optional password-store setup
+### 6. Optional password-store setup
 
 In `~/.zshrc.local`:
 
@@ -93,7 +101,7 @@ Then:
 ./setup-pass.sh
 ```
 
-### 6. Restart your terminal
+### 7. Restart your terminal
 
 ---
 
@@ -115,7 +123,13 @@ stow zsh git config ssh scripts nvim-lite themes opencode tmux gnupg
 
 On macOS, `macos-ssh` is required for `ssh orb`.
 
-After manual Stow, run `./setup-yubikey.sh` only if you use a YubiKey.
+After manual Stow:
+
+```bash
+./setup-gpg-agent.sh
+```
+
+Run `./setup-yubikey.sh` only if you use a YubiKey.
 
 ---
 
@@ -129,6 +143,15 @@ After manual Stow, run `./setup-yubikey.sh` only if you use a YubiKey.
 ```bash
 cp ~/dotfiles/zsh/.zshrc.local.example ~/.zshrc.local
 cp ~/dotfiles/git/.gitconfig.local.example ~/.gitconfig.local
+```
+
+If you do not use commit signing, set this in `~/.gitconfig.local`:
+
+```ini
+[commit]
+    gpgSign = false
+[merge]
+    gpgSign = false
 ```
 
 ---
