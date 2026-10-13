@@ -50,6 +50,9 @@ install_macos() {
   install_tmux_plugins
   init_submodules
   create_local_templates
+  mkdir -p "$HOME/.ssh/config.d"
+  chmod 700 "$HOME/.ssh" "$HOME/.ssh/config.d"
+  PACKAGES+=(macos-ssh)
   stow_dotfiles
   configure_gpg_agent
   apply_macos_defaults

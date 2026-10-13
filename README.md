@@ -9,7 +9,7 @@ Personal macOS terminal configuration managed with [GNU Stow](https://www.gnu.or
 | `zsh` | `~/.zshrc` | Oh My Zsh, FZF, NVM, GPG, docker/aws/pass completions, aliases |
 | `git` | `~/.gitconfig` | delta pager, nvim diff, codediff merge, GPG signing |
 | `config` | `~/.config/git/ignore`, `~/.config/btop/btop.conf` | Global gitignore, btop settings |
-| `ssh` | `~/.ssh/config` | GPG SSH agent, OrbStack integration |
+| `ssh` | `~/.ssh/config` | GPG SSH agent. OrbStack include is the macOS-only `macos-ssh` package |
 | `scripts` | `~/.scripts/` | [2FA (ykman)](scripts/README.md#2fa-yubikey-oath), [pass picker](scripts/README.md#pass), JSON log formatter |
 | `nvim-lite` | `~/.config/nvim-lite/` | Neovim config (`NVIM_APPNAME=nvim-lite`) |
 | `themes` | `~/.zsh2000-node/` | Zsh theme (submodule → [alfonsoandrei/zsh2000-node](https://github.com/alfonsoandrei/zsh2000-node)) |
