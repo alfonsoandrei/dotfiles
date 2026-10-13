@@ -4,22 +4,24 @@
 
 ## OVERVIEW
 
-GNU Stow dotfiles. `./install.sh` bootstraps macOS. On Omarchy it exits before changing the machine.
+GNU Stow dotfiles with platform bootstrap in `install.sh`:
+- macOS: full setup
+- Omarchy: package install + shared config + bash-to-zsh handoff
 
 ## STRUCTURE
 
 ```
 dotfiles/
-├── install.sh          # Detects the platform and dispatches
-├── install/            # Shared, macOS, and Omarchy steps; gpg-agent template
+├── install.sh          # Detects platform and dispatches
+├── install/            # Shared, macOS, and Omarchy installer steps
 ├── Brewfile            # Homebrew packages
-├── setup-yubikey.sh    # Render gpg-agent.conf, import the card key
-├── setup-pass.sh       # Clone and trust the password store
+├── setup-yubikey.sh    # Render gpg-agent.conf, import card key
+├── setup-pass.sh       # Clone/configure password store
 ├── zsh/                # Oh My Zsh, aliases, functions
 ├── git/                # delta, nvim-lite diff, codediff merge
 ├── config/             # Ghostty, global gitignore
-├── ssh/                # Shared SSH config and GPG agent match
-├── macos-ssh/          # macOS-only OrbStack include
+├── ssh/                # Shared SSH config
+├── macos-ssh/          # OrbStack include (macOS only)
 ├── scripts/            # 2fa, pass picker, clipboard, pinentry-auto
 ├── nvim-lite/          # Neovim config
 ├── themes/             # zsh2000-node submodule
@@ -32,13 +34,13 @@ dotfiles/
 
 | Task | Location | Notes |
 |------|----------|-------|
-| Install | `install.sh`, `install/` | macOS installs. Omarchy is unimplemented |
+| Install | `install.sh`, `install/` | `install/common.sh`, `install/macos.sh`, `install/omarchy.sh` |
 | Shell config | `zsh/` | `.zshrc`, `aliases.zsh`, `functions.zsh` |
 | Git config | `git/.gitconfig` | delta, codediff merge, GPG signing |
 | SSH | `ssh/.ssh/config` | Includes `~/.ssh/config.d/*.conf` |
 | OrbStack | `macos-ssh/` | Stowed only on macOS |
 | Scripts | `scripts/README.md` | 2fa, pass picker, clipboard, pinentry |
-| Password store | `zsh/pass.zsh`, `setup-pass.sh` | `pass.zsh` is shell integration |
+| Password store | `zsh/pass.zsh`, `setup-pass.sh` | shell integration + bootstrap |
 | GPG agent | `install/gpg-agent.conf.in` | Rendered to `GNUPGHOME`, default `~/.gnupg` |
 | Neovim | `nvim-lite/.config/nvim-lite/` | `NVIM_APPNAME=nvim-lite` |
 | Zsh theme | `themes/.zsh2000-node/` | Submodule |
@@ -59,7 +61,8 @@ git submodule update --remote --merge
 
 ## NOTES
 
-- Shared Stow packages are `PACKAGES` in `install/common.sh`. macOS appends `macos-ssh`.
+- Shared Stow packages are in `PACKAGES` inside `install/common.sh`.
+- macOS adds the `macos-ssh` package in `install/macos.sh`.
+- Omarchy keeps bash as login shell and execs zsh for interactive shells.
 - Neovim config is `nvim-lite` via `NVIM_APPNAME=nvim-lite`.
-- SSH runs `gpg-connect-agent UPDATESTARTUPTTY` for every host.
 - Ghostty config is `config/.config/ghostty/config`.

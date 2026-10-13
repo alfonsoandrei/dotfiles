@@ -1,6 +1,6 @@
 # dotfiles
 
-Personal terminal configuration managed with [GNU Stow](https://www.gnu.org/software/stow/). `./install.sh` bootstraps macOS. On Omarchy it stops with "not implemented yet" and does not change the machine.
+Terminal configuration managed with [GNU Stow](https://www.gnu.org/software/stow/). `./install.sh` supports macOS and Omarchy.
 
 ## What's included
 
@@ -9,8 +9,8 @@ Personal terminal configuration managed with [GNU Stow](https://www.gnu.org/soft
 | `zsh` | `~/.zshrc` | Oh My Zsh, Powerlevel10k, aliases, functions |
 | `git` | `~/.gitconfig` | delta pager, nvim-lite diff, codediff merge, GPG signing |
 | `config` | `~/.config/git/ignore`, `~/.config/ghostty/config` | Global gitignore, Ghostty |
-| `ssh` | `~/.ssh/config` | GPG agent match. Includes `~/.ssh/config.d/*.conf` |
-| `macos-ssh` | `~/.ssh/config.d/orbstack.conf` | macOS only. OrbStack SSH include |
+| `ssh` | `~/.ssh/config` | Shared SSH config and `gpg-connect-agent` tty update |
+| `macos-ssh` | `~/.ssh/config.d/orbstack.conf` | macOS-only OrbStack include |
 | `scripts` | `~/.scripts/`, `~/.local/bin/` | [2FA](scripts/README.md#2fa-yubikey-oath), [pass picker](scripts/README.md#pass-password-store), clipboard helpers, `pinentry-auto` |
 | `nvim-lite` | `~/.config/nvim-lite/` | Neovim config (`NVIM_APPNAME=nvim-lite`) |
 | `themes` | `~/.zsh2000-node/` | Zsh theme (submodule → [alfonsoandrei/zsh2000-node](https://github.com/alfonsoandrei/zsh2000-node)) |
@@ -18,15 +18,15 @@ Personal terminal configuration managed with [GNU Stow](https://www.gnu.org/soft
 | `tmux` | `~/.tmux.conf` | tmux config and TPM plugins |
 | `gnupg` | `~/public-keys/` | Public keys used by `setup-pass.sh` |
 
-`gpg-agent.conf` is not stowed. `./install.sh` and `./setup-yubikey.sh` render it from `install/gpg-agent.conf.in` into `GNUPGHOME` (default `~/.gnupg`) with an absolute `pinentry-auto` path. An existing regular config keeps its other lines.
+`gpg-agent.conf` is generated, not stowed. `./install.sh` and `./setup-yubikey.sh` render it from `install/gpg-agent.conf.in` into `GNUPGHOME` (default `~/.gnupg`) with an absolute `pinentry-auto` path.
 
-Machine-specific config lives in `~/.zshrc.local` and `~/.gitconfig.local`. Those files are not tracked.
+Machine-specific files (`~/.zshrc.local`, `~/.gitconfig.local`) are sourced and never committed.
 
 ---
 
-## New macOS machine
+## New machine setup
 
-### 1. Clone the repo
+### 1. Clone
 
 ```bash
 git clone --recurse-submodules https://github.com/alfonsoandrei/dotfiles.git ~/dotfiles
@@ -34,46 +34,51 @@ git clone --recurse-submodules https://github.com/alfonsoandrei/dotfiles.git ~/d
 
 `--recurse-submodules` pulls the zsh2000-node theme.
 
-### 2. Run the bootstrap script
+### 2. Bootstrap
 
 ```bash
 cd ~/dotfiles && ./install.sh
 ```
 
-On macOS this will:
+### On macOS, this will:
 
-- Install Homebrew, if missing, and the packages in `Brewfile`
-- Install Oh My Zsh, Powerlevel10k, `zsh-autosuggestions`, and `zsh-syntax-highlighting`
-- Install NVM, the latest LTS Node, and the Neovim Node tools
-- Install the tmux plugins and initialize git submodules
-- Create `zsh/.zshrc.local` and `git/.gitconfig.local` from the examples when they are missing
-- Create `~/.ssh/config.d` and Stow the shared packages plus `macos-ssh`
-- Stop before linking anything if Stow finds a conflict
+- Install Homebrew packages from `Brewfile`
+- Install Oh My Zsh, Powerlevel10k, and Zsh plugins
+- Install NVM and Node LTS only when `~/.nvm` does not exist
+- Install Neovim Node dependencies with `npm`
+- Install tmux plugins and update submodules
+- Create local override templates if missing
+- Stow shared packages plus `macos-ssh`
+- Render `gpg-agent.conf` and apply a macOS default
+
+### On Omarchy, this will:
+
+- Install required packages with `pacman` (`sudo` when needed)
+- Install Oh My Zsh, Powerlevel10k, and Zsh plugins
+- Install tmux plugins and update submodules
+- Create local override templates if missing
+- Stow shared packages
 - Render `gpg-agent.conf`
-- Set the macOS window-drag default
+- Append an idempotent handoff block to `~/.bashrc` that keeps bash as login shell and opens interactive shells in zsh
 
-### 3. Fill in local overrides
+### 3. Fill local overrides
 
 ```bash
-nvim ~/.zshrc.local      # credentials, work env vars, AWS functions
-nvim ~/.gitconfig.local  # your name, email, GPG signing key
+nvim ~/.zshrc.local
+nvim ~/.gitconfig.local
 ```
 
-See [`zsh/.zshrc.local.example`](zsh/.zshrc.local.example) and [`git/.gitconfig.local.example`](git/.gitconfig.local.example).
+See `zsh/.zshrc.local.example` and `git/.gitconfig.local.example`.
 
-### 4. Set up YubiKey (if using one)
-
-Insert your YubiKey and run:
+### 4. Optional YubiKey setup
 
 ```bash
 ./setup-yubikey.sh
 ```
 
-This restarts `gpg-agent` with SSH support, imports your public key from the card, and sets trust. It needs `gnupg` and `pinentry-mac`.
+This restarts `gpg-agent`, imports your card key, and sets trust. If your card has no URL (`gpg --edit-card` → `url`), the script prints manual import steps.
 
-The card needs a public key URL (`gpg --edit-card`, then `url`). Without it, the script prints the card status and you import the key yourself.
-
-### 5. Set up password-store (if using one)
+### 5. Optional password-store setup
 
 In `~/.zshrc.local`:
 
@@ -94,24 +99,23 @@ Then:
 
 ## Manual Stow
 
-Use this only when Homebrew, Oh My Zsh, the Zsh plugins, Powerlevel10k, tmux plugins, and `stow` are already installed. Stow links files. It does not install those tools or render `gpg-agent.conf`.
+Use this only when prerequisites are already installed. Stow links files only; it does not install packages, plugins, or generate `gpg-agent.conf`.
 
 ```bash
 cd ~/dotfiles
 
+# macOS
 stow --simulate zsh git config ssh macos-ssh scripts nvim-lite themes opencode tmux gnupg
 stow zsh git config ssh macos-ssh scripts nvim-lite themes opencode tmux gnupg
-./setup-yubikey.sh
+
+# Omarchy
+stow --simulate zsh git config ssh scripts nvim-lite themes opencode tmux gnupg
+stow zsh git config ssh scripts nvim-lite themes opencode tmux gnupg
 ```
 
-`macos-ssh` is required on a Mac. Without it, `~/.ssh/config` includes an empty `config.d` glob and `ssh orb` does not get the OrbStack host.
+On macOS, `macos-ssh` is required for `ssh orb`.
 
-If Stow reports a conflict, move the existing file aside and run it again:
-
-```bash
-mv ~/.zshrc ~/.zshrc.bak
-mv ~/.gitconfig ~/.gitconfig.bak
-```
+After manual Stow, run `./setup-yubikey.sh` only if you use a YubiKey.
 
 ---
 
@@ -120,7 +124,7 @@ mv ~/.gitconfig ~/.gitconfig.bak
 | File | Purpose |
 |------|---------|
 | `~/.zshrc.local` | Credentials, work functions, `PASSWORD_STORE_REPO`, `GPG_KEY_ID` |
-| `~/.gitconfig.local` | Name, email, GPG signing key |
+| `~/.gitconfig.local` | Name, email, signing key |
 
 ```bash
 cp ~/dotfiles/zsh/.zshrc.local.example ~/.zshrc.local
@@ -131,17 +135,11 @@ cp ~/dotfiles/git/.gitconfig.local.example ~/.gitconfig.local
 
 ## Adding a package
 
-1. Create the package directory so it mirrors `$HOME`:
-   ```bash
-   mkdir -p ~/dotfiles/<package>/<path/relative/to/home>
-   ```
-2. Add the package name to `PACKAGES` in `install/common.sh`. A macOS-only package is appended in `install/macos.sh` instead.
-3. Stow it from the repo:
-   ```bash
-   cd ~/dotfiles && stow <package>
-   ```
+1. Create the package directory to mirror `$HOME`.
+2. Add the package name to `PACKAGES` in `install/common.sh` (or append in `install/macos.sh` for macOS-only packages).
+3. Stow it from the repo root.
 
-Example, adding `~/.wezterm.lua`:
+Example:
 
 ```bash
 mkdir -p ~/dotfiles/wezterm
