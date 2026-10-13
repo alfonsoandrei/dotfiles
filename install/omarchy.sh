@@ -55,7 +55,12 @@ configure_omarchy_shell_handoff() {
       in_block && $0 == end { in_block = 0; next }
       !in_block { print }
     ' "$bashrc" > "$tmp"
-    mv "$tmp" "$bashrc"
+    if [ -L "$bashrc" ]; then
+      cat "$tmp" > "$bashrc"
+      rm -f "$tmp"
+    else
+      mv "$tmp" "$bashrc"
+    fi
   fi
 
   cat >>"$bashrc" <<'EOF'
