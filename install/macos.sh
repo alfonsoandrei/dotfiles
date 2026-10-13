@@ -51,6 +51,7 @@ install_macos() {
   init_submodules
   create_local_templates
   stow_dotfiles
+  configure_gpg_agent
   apply_macos_defaults
   echo_next_steps
 }

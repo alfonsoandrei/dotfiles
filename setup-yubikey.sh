@@ -4,23 +4,17 @@ set -e
 echo "==> Setting up YubiKey (GPG + SSH)..."
 
 # ── 1. Check dependencies ─────────────────────────────────────────────────────
-for cmd in gpg gpgconf pinentry-mac; do
+for cmd in gpg gpgconf; do
     if ! command -v "$cmd" &>/dev/null; then
         echo "Error: '$cmd' not found. Run install.sh first."
         exit 1
     fi
 done
 
-# ── 2. Configure ~/.gnupg ─────────────────────────────────────────────────────
-GNUPGHOME="${GNUPGHOME:-$HOME/.gnupg}"
-mkdir -p "$GNUPGHOME"
-chmod 700 "$GNUPGHOME"
-
-# gpg-agent.conf is managed by stow (gnupg package). Verify it's in place.
-if [ ! -e "$GNUPGHOME/gpg-agent.conf" ]; then
-  echo "Error: ~/.gnupg/gpg-agent.conf not found. Run install.sh (stow) first."
-  exit 1
-fi
+DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=install/common.sh
+source "$DOTFILES/install/common.sh"
+configure_gpg_agent
 
 # ── 3. Restart gpg-agent ──────────────────────────────────────────────────────
 echo "==> Restarting gpg-agent..."

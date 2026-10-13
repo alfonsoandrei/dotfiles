@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# gpg-agent execs this with a minimal PATH, so only absolute programs are reliable.
+# Bash 3.2 treats "${array[@]}" as unbound when the array is empty.
+pinentry_args=("$@")
+
+launch() {
+  local candidate
+  for candidate in "$@"; do
+    if [ -n "$candidate" ] && [ -x "$candidate" ]; then
+      if [ ${#pinentry_args[@]} -eq 0 ]; then
+        exec "$candidate"
+      fi
+      exec "$candidate" "${pinentry_args[@]}"
+    fi
+  done
+  echo "pinentry-auto: no pinentry program found" >&2
+  exit 1
+}
+
+case "$(uname -s)" in
+  Darwin)
+    launch \
+      /opt/homebrew/bin/pinentry-mac \
+      /usr/local/bin/pinentry-mac \
+      "$(command -v pinentry-mac 2>/dev/null || true)"
+    ;;
+  Linux)
+    launch \
+      /usr/bin/pinentry-qt \
+      /usr/bin/pinentry-gnome3 \
+      /usr/bin/pinentry \
+      /usr/bin/pinentry-curses \
+      "$(command -v pinentry-qt 2>/dev/null || true)" \
+      "$(command -v pinentry 2>/dev/null || true)"
+    ;;
+  *)
+    echo "pinentry-auto: unsupported platform $(uname -s)" >&2
+    exit 1
+    ;;
+esac

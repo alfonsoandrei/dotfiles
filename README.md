@@ -61,7 +61,7 @@ Insert your YubiKey and run:
 ./setup-yubikey.sh
 ```
 
-This configures `gpg-agent` for SSH support, imports your public key from the card, and sets trust. Requires `gnupg` and `pinentry-mac` (already in `Brewfile`).
+This configures `gpg-agent` for SSH support, imports your public key from the card, and sets trust. Requires `gnupg` and a pinentry program (`pinentry-mac` on macOS, `pinentry-qt` on Omarchy).
 
 > **Prerequisite:** your card should have a public key URL set (`gpg --edit-card` → `url`). Without it the script will print the card status and prompt you to import manually.
 

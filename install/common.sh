@@ -74,6 +74,28 @@ create_local_templates() {
   fi
 }
 
+configure_gpg_agent() {
+  local conf pinentry
+  conf="$HOME/.gnupg/gpg-agent.conf"
+  pinentry="$HOME/.local/bin/pinentry-auto"
+
+  if [ ! -x "$pinentry" ]; then
+    echo "Error: $pinentry is missing. Stow the scripts package first." >&2
+    exit 1
+  fi
+
+  mkdir -p "$HOME/.gnupg"
+  chmod 700 "$HOME/.gnupg"
+
+  # gpg-agent does not expand ~, and a stowed conf cannot hold a per-machine path.
+  if [ -L "$conf" ] || [ ! -e "$conf" ]; then
+    rm -f "$conf"
+  fi
+
+  sed "s|__PINENTRY__|$pinentry|" "$DOTFILES/install/gpg-agent.conf.in" > "$conf"
+  chmod 600 "$conf"
+}
+
 stow_dotfiles() {
   local pkg failed=0
 

@@ -23,7 +23,7 @@
 [rerere]
     enabled = true
 [gpg]
-    program = gpg2
+    program = gpg
 [commit]
     gpgSign = true
 [url "git@bitbucket.org:"]
