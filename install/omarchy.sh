@@ -19,6 +19,7 @@ install_omarchy_packages() {
     tmux
     wl-clipboard
     yazi
+    yarn
     yubikey-manager
     zoxide
     zsh
