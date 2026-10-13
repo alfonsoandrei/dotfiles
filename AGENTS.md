@@ -1,73 +1,65 @@
-# dotfiles - macOS Terminal Configuration
+# dotfiles
 
-**Generated:** 2026-04-15
-**Commit:** 9705fb2
-**Branch:** main
+**Updated:** 2026-10-13
 
 ## OVERVIEW
 
-macOS dotfiles managed with GNU Stow. Each package symlinks to home directory.
+GNU Stow dotfiles. `./install.sh` bootstraps macOS. On Omarchy it exits before changing the machine.
 
 ## STRUCTURE
 
 ```
 dotfiles/
-├── install.sh          # Bootstrap: brew, omz, nvm, stow
+├── install.sh          # Detects the platform and dispatches
+├── install/            # Shared, macOS, and Omarchy steps; gpg-agent template
 ├── Brewfile            # Homebrew packages
-├── setup-yubikey.sh    # GPG SSH agent config
-├── setup-pass.sh       # password-store setup
-├── zsh/                # Oh My Zsh + plugins + aliases
-├── git/                # delta pager, nvim diff, codediff merge
-├── config/             # Ghostty, btop, gitignore
-├── ssh/                # GPG SSH agent, OrbStack
-├── scripts/            # 2fa (ykman), pass picker
+├── setup-yubikey.sh    # Render gpg-agent.conf, import the card key
+├── setup-pass.sh       # Clone and trust the password store
+├── zsh/                # Oh My Zsh, aliases, functions
+├── git/                # delta, nvim-lite diff, codediff merge
+├── config/             # Ghostty, global gitignore
+├── ssh/                # Shared SSH config and GPG agent match
+├── macos-ssh/          # macOS-only OrbStack include
+├── scripts/            # 2fa, pass picker, clipboard, pinentry-auto
 ├── nvim-lite/          # Neovim config
-├── themes/             # zsh2000-node (submodule)
-├── opencode/           # Opencode skills/config
-└── gnupg/              # GPG public keys
+├── themes/             # zsh2000-node submodule
+├── opencode/           # Opencode configuration
+├── tmux/               # tmux config
+└── gnupg/              # Public keys
 ```
 
 ## WHERE TO LOOK
 
 | Task | Location | Notes |
 |------|----------|-------|
+| Install | `install.sh`, `install/` | macOS installs. Omarchy is unimplemented |
 | Shell config | `zsh/` | `.zshrc`, `aliases.zsh`, `functions.zsh` |
 | Git config | `git/.gitconfig` | delta, codediff merge, GPG signing |
-| Custom scripts | `scripts/.scripts/` | 2fa, pass picker |
-| Password store | `zsh/pass.zsh` | pass integration |
-| Neovim config | `nvim-lite/.config/nvim-lite/` | Stow package, `NVIM_APPNAME=nvim-lite` |
-| Zsh theme | `themes/.zsh2000-node/` | Submodule repo |
+| SSH | `ssh/.ssh/config` | Includes `~/.ssh/config.d/*.conf` |
+| OrbStack | `macos-ssh/` | Stowed only on macOS |
+| Scripts | `scripts/README.md` | 2fa, pass picker, clipboard, pinentry |
+| Password store | `zsh/pass.zsh`, `setup-pass.sh` | `pass.zsh` is shell integration |
+| GPG agent | `install/gpg-agent.conf.in` | Rendered to `GNUPGHOME`, default `~/.gnupg` |
+| Neovim | `nvim-lite/.config/nvim-lite/` | `NVIM_APPNAME=nvim-lite` |
+| Zsh theme | `themes/.zsh2000-node/` | Submodule |
 
 ## COMMANDS
 
 ```bash
-# Bootstrap new machine
 ./install.sh
-
-# Add new package
-stow <package>
-
-# Update submodules
+cd ~/dotfiles && stow <package>
 git submodule update --remote --merge
-
-# YubiKey setup
 ./setup-yubikey.sh
-
-# Password store setup
 ./setup-pass.sh
 ```
 
-## KEY ALIASES & FUNCTIONS
-
-See `zsh/AGENTS.md` and `scripts/AGENTS.md` for full listings.
-
 ## LOCAL OVERRIDES
 
-Machine-specific config in `~/.zshrc.local` and `~/.gitconfig.local` - NEVER committed.
+`~/.zshrc.local` and `~/.gitconfig.local` are sourced and never committed.
 
 ## NOTES
 
-- Zsh theme: submodule at `themes/.zsh2000-node/`
-- Neovim config: `nvim-lite/.config/nvim-lite/` via `NVIM_APPNAME=nvim-lite`
-- SSH uses GPG agent: `gpg-connect-agent UPDATESTARTUPTTY`
-- Ghostty config: `~/.config/ghostty/`
+- Shared Stow packages are `PACKAGES` in `install/common.sh`. macOS appends `macos-ssh`.
+- Neovim config is `nvim-lite` via `NVIM_APPNAME=nvim-lite`.
+- SSH runs `gpg-connect-agent UPDATESTARTUPTTY` for every host.
+- Ghostty config is `config/.config/ghostty/config`.

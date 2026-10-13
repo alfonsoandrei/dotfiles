@@ -1,6 +1,6 @@
 # Scripts
 
-Custom quality-of-life scripts symlinked to `~/.scripts/` via GNU Stow.
+The `scripts` Stow package links `~/.scripts/` and `~/.local/bin/`.
 
 ## 2FA (YubiKey OATH)
 
@@ -42,8 +42,8 @@ Interactively add a new OATH account to your YubiKey.
 
 Interactive password picker using fzf.
 
-### `pass` (Ctrl+P)
-Opens an fzf picker with all your password-store entries:
+### Ctrl+P
+The `pass` command is password-store itself. Ctrl+P opens the fzf picker:
 - Fuzzy search through `.gpg` files in `~/.password-store`
 - Preview shows metadata (account name, URL, notes) — never the password
 - Press `Enter` to copy password to clipboard
@@ -58,4 +58,12 @@ Enter           # Copy selected password to clipboard
 1. Finds all `.gpg` files in `~/.password-store`
 2. Strips path and extension for clean display
 3. Opens fzf with preview showing metadata only
-4. On selection, uses `pass -c` to copy password (45s clipboard timeout)
+4. On selection, uses `pass -c` to copy the password (45s clipboard timeout)
+
+---
+
+## Clipboard and pinentry
+
+`~/.local/bin/clipboard-copy` and `clipboard-paste` use `pbcopy` and `pbpaste` on macOS, and `wl-copy` and `wl-paste` on Linux. The shell, tmux, 2FA, and pass picker call them.
+
+`~/.local/bin/pinentry-auto` chooses `pinentry-mac` on macOS and a Qt, GNOME, or curses pinentry on Linux. `setup-yubikey.sh` points `gpg-agent` at it.
