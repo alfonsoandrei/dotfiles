@@ -43,17 +43,17 @@ echo_next_steps() {
 
 install_macos() {
   install_brew
-  install_omz
   install_nvm
   install_neovim_node_deps
-  install_zsh_plugins
-  install_tmux_plugins
   init_submodules
   create_local_templates
   mkdir -p "$HOME/.ssh/config.d"
   chmod 700 "$HOME/.ssh" "$HOME/.ssh/config.d"
   PACKAGES+=(macos-ssh)
   stow_dotfiles
+  install_omz
+  install_zsh_plugins
+  install_tmux_plugins
   configure_gpg_agent
   apply_macos_defaults
   echo_next_steps

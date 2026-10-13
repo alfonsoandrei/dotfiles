@@ -75,12 +75,12 @@ echo_next_steps_omarchy() {
 
 install_omarchy() {
   install_omarchy_packages
-  install_omz
-  install_zsh_plugins
-  install_tmux_plugins
   init_submodules
   create_local_templates
   stow_dotfiles
+  install_omz
+  install_zsh_plugins
+  install_tmux_plugins
   configure_gpg_agent
   configure_omarchy_shell_handoff
   echo_next_steps_omarchy
