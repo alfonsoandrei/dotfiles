@@ -1,6 +1,7 @@
 # Initialize Node Version Manager (NVM)
 # Omarchy uses mise; avoid shadowing it on Linux hosts.
 if [ "$(uname -s)" = "Linux" ] && command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
   return
 fi
 
