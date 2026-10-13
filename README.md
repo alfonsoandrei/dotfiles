@@ -56,10 +56,11 @@ cd ~/dotfiles && ./install.sh
 - Install required packages with `pacman` (`sudo` when needed)
 - Install Oh My Zsh, Powerlevel10k, and Zsh plugins
 - Install tmux plugins and update submodules
+- Install Neovim Node dependencies with `npm`
 - Create local override templates if missing
 - Stow shared packages
 - Render `gpg-agent.conf`
-- Append an idempotent handoff block to `~/.bashrc` that keeps bash as login shell and opens interactive shells in zsh
+- Append an idempotent handoff block to `~/.bashrc` that keeps bash as login shell and opens non-login interactive shells in zsh
 
 ### 3. Fill local overrides
 

@@ -65,6 +65,6 @@ git submodule update --remote --merge
 
 - Shared Stow packages are in `PACKAGES` inside `install/common.sh`.
 - macOS adds the `macos-ssh` package in `install/macos.sh`.
-- Omarchy keeps bash as login shell and execs zsh for interactive shells.
+- Omarchy keeps bash as login shell and execs zsh for non-login interactive shells.
 - Neovim config is `nvim-lite` via `NVIM_APPNAME=nvim-lite`.
 - Ghostty config is `config/.config/ghostty/config`.

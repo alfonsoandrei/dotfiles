@@ -10,6 +10,8 @@ install_omarchy_packages() {
     gnupg
     lazygit
     neovim
+    nodejs
+    npm
     pass
     pinentry
     ripgrep
@@ -53,7 +55,9 @@ configure_omarchy_shell_handoff() {
 
 # >>> dotfiles omarchy zsh handoff >>>
 # Keep bash as the login shell for Omarchy startup, then hand off interactive shells to zsh.
-if [[ $- == *i* ]] && [ -z "${BASH_EXECUTION_STRING:-}" ] && [ "${DOTFILES_NO_ZSH_HANDOFF:-0}" != "1" ]; then
+if [[ $- == *i* ]] && [ -z "${BASH_EXECUTION_STRING:-}" ] \
+  && [ "${DOTFILES_NO_ZSH_HANDOFF:-0}" != "1" ] \
+  && ! shopt -q login_shell; then
   __dotfiles_parent_shell="$(ps --no-header --pid="$PPID" --format=comm 2>/dev/null || true)"
   if [ "$__dotfiles_parent_shell" != "zsh" ] && command -v zsh >/dev/null 2>&1; then
     exec "$(command -v zsh)"
@@ -81,6 +85,7 @@ install_omarchy() {
   install_omz
   install_zsh_plugins
   install_tmux_plugins
+  install_neovim_node_deps
   configure_gpg_agent
   configure_omarchy_shell_handoff
   echo_next_steps_omarchy

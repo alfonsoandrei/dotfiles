@@ -86,12 +86,17 @@ configure_gpg_agent() {
     exit 1
   fi
 
+  # Older Stow layouts could leave ~/.gnupg as a dangling symlink.
+  if [ -L "$gpg_home" ] && [ ! -d "$gpg_home" ]; then
+    rm -f "$gpg_home"
+  fi
+
   mkdir -p "$gpg_home"
   chmod 700 "$gpg_home"
 
-  # gpg-agent does not expand ~. A missing file or an old Stow symlink gets the
-  # template. An existing regular file keeps every other setting.
-  if [ -L "$conf" ] || [ ! -e "$conf" ]; then
+  # gpg-agent does not expand ~. Missing files (including dangling legacy links)
+  # get the template. Existing files keep every other setting.
+  if [ ! -e "$conf" ]; then
     rm -f "$conf"
     sed "s|__PINENTRY__|$pinentry|" "$DOTFILES/install/gpg-agent.conf.in" > "$conf"
   else
@@ -114,7 +119,12 @@ configure_gpg_agent() {
         if (!found_ssh) print "enable-ssh-support"
       }
     ' "$conf" > "$tmp"
-    mv "$tmp" "$conf"
+    if [ -L "$conf" ]; then
+      cat "$tmp" > "$conf"
+      rm -f "$tmp"
+    else
+      mv "$tmp" "$conf"
+    fi
   fi
   chmod 600 "$conf"
 }
