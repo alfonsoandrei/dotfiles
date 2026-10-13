@@ -2,7 +2,9 @@
 # Copy this file to ~/.zshrc.local and fill in your values.
 
 # ── pass ─────────────────────────────────────────────────────────────────────
-# PASSWORD_STORE_REPO=<my_git_repo>
+# setup-pass.sh reads these export lines.
+# export PASSWORD_STORE_REPO=<my_git_repo>
+# export GPG_KEY_ID=<gpg key id>
 
 # Obsidian Vault Path
 # export VAULT_DIR_NOTES=""
