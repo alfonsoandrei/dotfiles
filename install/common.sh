@@ -12,9 +12,17 @@ install_omz() {
 }
 
 install_neovim_node_deps() {
+  local deps
 
   echo "==> Installing Neovim Node.js dependencies..."
-  npm install -g neovim tree-sitter-cli eslint_d @mermaid-js/mermaid-cli
+  deps=(neovim tree-sitter-cli eslint_d @mermaid-js/mermaid-cli)
+
+  if npm install -g "${deps[@]}"; then
+    return
+  fi
+
+  echo "   Retrying with user prefix at $HOME/.local (fixes npm global EACCES)..."
+  npm install --prefix "$HOME/.local" -g "${deps[@]}"
 }
 
 install_zsh_plugins() {

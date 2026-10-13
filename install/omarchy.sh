@@ -41,14 +41,21 @@ install_omarchy_packages() {
 }
 
 configure_omarchy_shell_handoff() {
-  local bashrc marker_start marker_end
+  local bashrc marker_start marker_end tmp
   bashrc="$HOME/.bashrc"
   marker_start="# >>> dotfiles omarchy zsh handoff >>>"
   marker_end="# <<< dotfiles omarchy zsh handoff <<<"
 
   touch "$bashrc"
   if grep -Fq "$marker_start" "$bashrc"; then
-    return
+    # Replace older blocks in place so reruns pick up guard changes.
+    tmp="$(mktemp)"
+    awk -v start="$marker_start" -v end="$marker_end" '
+      $0 == start { in_block = 1; next }
+      in_block && $0 == end { in_block = 0; next }
+      !in_block { print }
+    ' "$bashrc" > "$tmp"
+    mv "$tmp" "$bashrc"
   fi
 
   cat >>"$bashrc" <<'EOF'
