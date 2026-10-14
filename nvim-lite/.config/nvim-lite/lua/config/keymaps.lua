@@ -39,6 +39,12 @@ map("n", "<leader>ts", function()
   vim.notify(vim.wo.spell and "Spell checking enabled" or "Spell checking disabled", vim.log.levels.INFO)
 end, { noremap = true, silent = true, desc = "Toggle spell checking" })
 
+-- Toggle relative line numbers
+map("n", "<leader>uL", function()
+  vim.wo.relativenumber = not vim.wo.relativenumber
+  vim.notify(vim.wo.relativenumber and "Relative numbers enabled" or "Relative numbers disabled", vim.log.levels.INFO)
+end, { noremap = true, silent = true, desc = "Toggle relative line numbers" })
+
 -- Surround (Visual)
 map("v", "S", function()
   local char = vim.fn.getcharstr()
