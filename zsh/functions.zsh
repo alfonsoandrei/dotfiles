@@ -27,7 +27,8 @@ function yy() {
 }
 
 # mdfried -w fails on a bare file name, so pass the full path.
-mdw() { mdfried -w "${1:a}"; }
+unalias md 2>/dev/null
+md() { mdfried -w "${1:a}"; }
 
 # File clipboard: fcopy and fcut mark files, fpaste copies or moves them into the current dir.
 # The marks live in a file, so a paste works from any shell.
