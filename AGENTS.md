@@ -1,6 +1,6 @@
 # dotfiles
 
-**Updated:** 2026-10-13
+**Updated:** 2026-10-15
 
 ## OVERVIEW
 
@@ -20,9 +20,10 @@ dotfiles/
 ├── setup-pass.sh       # Clone/configure password store
 ├── zsh/                # Oh My Zsh, aliases, functions
 ├── git/                # delta, nvim-lite diff, codediff merge
-├── config/             # Ghostty, global gitignore
+├── config/             # Ghostty, global gitignore, mdfried
 ├── ssh/                # Shared SSH config
 ├── macos-ssh/          # OrbStack include (macOS only)
+├── macos-mdfried/      # Link to mdfried config at its macOS path
 ├── scripts/            # 2fa, pass picker, clipboard, pinentry-auto
 ├── nvim-lite/          # Neovim config
 ├── themes/             # zsh2000-node submodule
@@ -44,6 +45,7 @@ dotfiles/
 | Password store | `zsh/pass.zsh`, `setup-pass.sh` | shell integration + bootstrap |
 | GPG agent | `install/gpg-agent.conf.in` | Rendered to `GNUPGHOME`, default `~/.gnupg` |
 | Neovim | `nvim-lite/.config/nvim-lite/` | `NVIM_APPNAME=nvim-lite` |
+| Markdown viewer | `config/.config/mdfried/config.toml` | macOS reads it through `macos-mdfried/` |
 | Zsh theme | `themes/.zsh2000-node/` | Submodule |
 
 ## COMMANDS
@@ -64,7 +66,7 @@ git submodule update --remote --merge
 ## NOTES
 
 - Shared Stow packages are in `PACKAGES` inside `install/common.sh`.
-- macOS adds the `macos-ssh` package in `install/macos.sh`.
+- macOS adds the `macos-ssh` and `macos-mdfried` packages in `install/macos.sh`.
 - Omarchy keeps bash as login shell and execs zsh for non-login interactive shells.
 - Neovim config is `nvim-lite` via `NVIM_APPNAME=nvim-lite`.
 - Ghostty config is `config/.config/ghostty/config`.

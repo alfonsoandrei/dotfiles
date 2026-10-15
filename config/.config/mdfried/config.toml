@@ -1,0 +1,3 @@
+font_family = "JetBrainsMono Nerd Font"
+# mdfried 0.22 sends the fence label as line 1 and pads each line with spaces. mmdc rejects both.
+mermaid = "sed -e 1d -e 's/[[:space:]]*$//' | mmdc -i - -o - -e png -t dark -b transparent"

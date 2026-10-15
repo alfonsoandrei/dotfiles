@@ -11,6 +11,7 @@ install_omarchy_packages() {
     hurl
     jq
     lazygit
+    mdfried
     neovim
     nodejs
     npm

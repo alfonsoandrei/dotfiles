@@ -8,9 +8,10 @@ Terminal configuration managed with [GNU Stow](https://www.gnu.org/software/stow
 |---------|-------------|----------|
 | `zsh` | `~/.zshrc` | Oh My Zsh, Powerlevel10k, aliases, functions |
 | `git` | `~/.gitconfig` | delta pager, nvim-lite diff, codediff merge, GPG signing |
-| `config` | `~/.config/git/ignore`, `~/.config/ghostty/config` | Global gitignore, Ghostty |
+| `config` | `~/.config/git/ignore`, `~/.config/ghostty/config`, `~/.config/mdfried/` | Global gitignore, Ghostty, mdfried |
 | `ssh` | `~/.ssh/config` | Shared SSH config and `gpg-connect-agent` tty update |
 | `macos-ssh` | `~/.ssh/config.d/orbstack.conf` | macOS-only OrbStack include |
+| `macos-mdfried` | `~/Library/Application Support/rs.mdfried/config.toml` | macOS-only link to the mdfried config in `config` |
 | `scripts` | `~/.scripts/`, `~/.local/bin/` | [2FA](scripts/README.md#2fa-yubikey-oath), [pass picker](scripts/README.md#pass-password-store), clipboard helpers, `pinentry-auto` |
 | `nvim-lite` | `~/.config/nvim-lite/` | Neovim config (`NVIM_APPNAME=nvim-lite`) |
 | `themes` | `~/.zsh2000-node/` | Zsh theme (submodule → [alfonsoandrei/zsh2000-node](https://github.com/alfonsoandrei/zsh2000-node)) |
@@ -48,7 +49,7 @@ cd ~/dotfiles && ./install.sh
 - Install Neovim Node dependencies with `npm`
 - Install tmux plugins and update submodules
 - Create local override templates if missing
-- Stow shared packages plus `macos-ssh`
+- Stow shared packages plus `macos-ssh` and `macos-mdfried`
 - Render `gpg-agent.conf` and apply a macOS default
 
 ### On Omarchy, this will:
@@ -114,15 +115,15 @@ Use this only when prerequisites are already installed. Stow links files only; i
 cd ~/dotfiles
 
 # macOS
-stow --simulate zsh git config ssh macos-ssh scripts nvim-lite themes opencode tmux gnupg
-stow zsh git config ssh macos-ssh scripts nvim-lite themes opencode tmux gnupg
+stow --simulate zsh git config ssh macos-ssh macos-mdfried scripts nvim-lite themes opencode tmux gnupg
+stow zsh git config ssh macos-ssh macos-mdfried scripts nvim-lite themes opencode tmux gnupg
 
 # Omarchy
 stow --simulate zsh git config ssh scripts nvim-lite themes opencode tmux gnupg
 stow zsh git config ssh scripts nvim-lite themes opencode tmux gnupg
 ```
 
-On macOS, `macos-ssh` is required for `ssh orb`.
+On macOS, `macos-ssh` is required for `ssh orb`. `macos-mdfried` is required because mdfried reads its config from `~/Library/Application Support`, not `~/.config`.
 
 After manual Stow:
 

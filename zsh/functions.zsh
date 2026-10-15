@@ -26,6 +26,9 @@ function yy() {
     rm -f -- "$tmp"
 }
 
+# mdfried -w fails on a bare file name, so pass the full path.
+mdw() { mdfried -w "${1:a}"; }
+
 fk() { ps aux | fzf --header-lines=1 | awk '{print $2}' | xargs kill -9; }
 
 pk() {

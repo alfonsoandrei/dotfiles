@@ -49,7 +49,7 @@ install_macos() {
   create_local_templates
   mkdir -p "$HOME/.ssh/config.d"
   chmod 700 "$HOME/.ssh" "$HOME/.ssh/config.d"
-  PACKAGES+=(macos-ssh)
+  PACKAGES+=(macos-ssh macos-mdfried)
   stow_dotfiles
   install_omz
   install_zsh_plugins
