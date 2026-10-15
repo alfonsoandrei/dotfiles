@@ -29,6 +29,56 @@ function yy() {
 # mdfried -w fails on a bare file name, so pass the full path.
 mdw() { mdfried -w "${1:a}"; }
 
+# File clipboard: fcopy and fcut mark files, fpaste copies or moves them into the current dir.
+# The marks live in a file, so a paste works from any shell.
+FCLIP="${XDG_STATE_HOME:-$HOME/.local/state}/fclip"
+
+_fclip_mark() {
+  local mode=$1 f
+  shift
+  if (( ! $# )); then
+    echo "usage: f$mode <file>..." >&2
+    return 1
+  fi
+  for f in "$@"; do
+    if [[ ! -e $f && ! -L $f ]]; then
+      echo "f$mode: $f: no such file" >&2
+      return 1
+    fi
+  done
+  mkdir -p "${FCLIP:h}"
+  print -rl -- "$mode" "${@:a}" > "$FCLIP"
+  echo "$mode: $# item(s)"
+}
+
+fcopy() { _fclip_mark copy "$@"; }
+fcut()  { _fclip_mark cut "$@"; }
+
+fpaste() {
+  if [[ ! -s $FCLIP ]]; then
+    echo "fpaste: clipboard is empty" >&2
+    return 1
+  fi
+  local -a lines=("${(@f)$(<$FCLIP)}")
+  local mode=$lines[1]
+  local -a files=("${(@)lines[2,-1]}")
+  if [[ $mode == cut ]]; then
+    mv -i -- "${files[@]}" .
+    # mv -i exits 0 after a declined overwrite, so keep the files that did not move.
+    local f
+    local -a left=()
+    for f in "${files[@]}"; do
+      [[ -e $f || -L $f ]] && left+=("$f")
+    done
+    rm -f -- "$FCLIP"
+    if (( ${#left} )); then
+      _fclip_mark cut "${left[@]}"
+    fi
+  else
+    cp -Ri -- "${files[@]}" .
+  fi
+}
+
 fk() { ps aux | fzf --header-lines=1 | awk '{print $2}' | xargs kill -9; }
 
 pk() {
