@@ -8,6 +8,8 @@ install_omarchy_packages() {
     fzf
     git-delta
     gnupg
+    hurl
+    jq
     lazygit
     neovim
     nodejs
@@ -18,6 +20,7 @@ install_omarchy_packages() {
     stow
     tmux
     wl-clipboard
+    xh
     yazi
     yarn
     yubikey-manager
