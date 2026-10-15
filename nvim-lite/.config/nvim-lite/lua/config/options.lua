@@ -17,6 +17,26 @@ opt.cursorline = true
 opt.showmode = false
 opt.cmdheight = 0
 
+-- Default tab labels use a shortened path. Show the active window's file name.
+function _G.nvim_lite_tabline()
+  local parts = {}
+  local current = vim.fn.tabpagenr()
+  for i = 1, vim.fn.tabpagenr("$") do
+    local bufnr = vim.fn.tabpagebuflist(i)[vim.fn.tabpagewinnr(i)]
+    local name = vim.api.nvim_buf_get_name(bufnr)
+    local label = name == "" and "[No Name]" or vim.fn.fnamemodify(name, ":t")
+    label = label:gsub("%%", "%%%%")
+    if vim.bo[bufnr].modified then
+      label = label .. " +"
+    end
+    local hl = i == current and "%#TabLineSel#" or "%#TabLine#"
+    parts[#parts + 1] = hl .. "%" .. i .. "T " .. i .. " " .. label .. " "
+  end
+  return table.concat(parts) .. "%#TabLineFill#%T"
+end
+
+opt.tabline = "%!v:lua.nvim_lite_tabline()"
+
 -- Command-line completion
 opt.wildoptions = "pum,fuzzy"
 opt.wildmode = "noselect:lastused,full"
