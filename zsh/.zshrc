@@ -63,4 +63,5 @@ fi
 # Obsidian Vault Path
 # export VAULT_DIR_NOTES=""
 
-eval "$(zoxide init --cmd cd zsh)"
+# Agents get the builtin cd: a mistyped path must fail, not jump.
+[[ -n $CLAUDECODE ]] || eval "$(zoxide init --cmd cd zsh)"
