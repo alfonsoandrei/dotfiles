@@ -18,3 +18,7 @@ vi-paste-clipboard() {
 zle -N vi-paste-clipboard
 bindkey -M vicmd 'p' vi-paste-clipboard
 
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd '^V' edit-command-line
+
