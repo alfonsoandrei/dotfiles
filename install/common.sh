@@ -146,7 +146,7 @@ install_yazi_packages() {
     return
   fi
 
-  echo "==> Installing yazi flavors..."
+  echo "==> Installing yazi packages..."
   ya pkg install || echo "Warning: ya pkg install failed; re-run it manually." >&2
 }
 

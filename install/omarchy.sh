@@ -7,6 +7,7 @@ install_omarchy_packages() {
     fd
     fzf
     git-delta
+    glow
     gnupg
     hurl
     jq
