@@ -1,0 +1,9 @@
+[opener]
+mdfried = [
+	{ run = "mdfried %s1", desc = "mdfried", for = "unix", block = true },
+]
+
+[open]
+prepend_rules = [
+	{ url = "*.{md,markdown}", use = [ "edit", "mdfried", "reveal" ] },
+]
