@@ -52,3 +52,7 @@ yarn-error.log*
 *.bak
 *.tmp
 *.old
+
+# ── Yazi packages — fetched by `ya pkg install` from yazi/.config/yazi/package.toml
+yazi/.config/yazi/flavors/
+yazi/.config/yazi/plugins/

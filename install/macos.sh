@@ -51,9 +51,9 @@ install_macos() {
   chmod 700 "$HOME/.ssh" "$HOME/.ssh/config.d"
   PACKAGES+=(macos-ssh macos-mdfried)
   stow_dotfiles
+  install_yazi_packages
   install_omz
   install_zsh_plugins
-  install_tmux_plugins
   configure_gpg_agent
   apply_macos_defaults
   echo_next_steps

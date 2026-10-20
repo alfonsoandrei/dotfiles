@@ -19,7 +19,6 @@ install_omarchy_packages() {
     pinentry
     ripgrep
     stow
-    tmux
     wl-clipboard
     xh
     yazi
@@ -99,9 +98,9 @@ install_omarchy() {
   init_submodules
   create_local_templates
   stow_dotfiles
+  install_yazi_packages
   install_omz
   install_zsh_plugins
-  install_tmux_plugins
   install_neovim_node_deps
   configure_gpg_agent
   configure_omarchy_shell_handoff

@@ -43,7 +43,6 @@ opt.wildmode = "noselect:lastused,full"
 
 -- Clipboard
 -- yank into system clip board directly
--- tmux cross panel copy
 opt.clipboard = "unnamedplus"
 
 -- Editing

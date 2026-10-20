@@ -1,6 +1,6 @@
 # Shared install steps. Sourced by install.sh.
 
-PACKAGES=(zsh git config ssh scripts nvim-lite themes opencode tmux gnupg)
+PACKAGES=(zsh git config ssh scripts nvim-lite themes opencode gnupg yazi)
 
 install_omz() {
 
@@ -42,25 +42,6 @@ install_zsh_plugins() {
     echo "==> Installing Powerlevel10k theme..."
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k"
   fi
-}
-
-install_tmux_plugins() {
-  TMUX_PLUGINS="$HOME/.tmux/plugins"
-
-  clone_if_missing() {
-    local name="$1" url="$2"
-    if [ ! -d "$TMUX_PLUGINS/$name" ]; then
-      echo "==> Installing tmux plugin: $name..."
-      git clone "$url" "$TMUX_PLUGINS/$name"
-    fi
-  }
-
-  clone_if_missing tpm https://github.com/tmux-plugins/tpm
-  clone_if_missing tmux-sensible https://github.com/tmux-plugins/tmux-sensible
-  clone_if_missing tmux-resurrect https://github.com/tmux-plugins/tmux-resurrect
-  clone_if_missing tmux-continuum https://github.com/tmux-plugins/tmux-continuum
-  clone_if_missing vim-tmux-navigator https://github.com/christoomey/vim-tmux-navigator
-  clone_if_missing tmux https://github.com/rose-pine/tmux
 }
 
 init_submodules() {
@@ -157,6 +138,16 @@ ensure_dotfiles_link() {
   fi
 
   ln -s "$DOTFILES" "$home_dotfiles"
+}
+
+install_yazi_packages() {
+  if ! command -v ya >/dev/null 2>&1; then
+    echo "==> Skipping yazi packages (ya not installed)"
+    return
+  fi
+
+  echo "==> Installing yazi flavors..."
+  ya pkg install || echo "Warning: ya pkg install failed; re-run it manually." >&2
 }
 
 stow_dotfiles() {

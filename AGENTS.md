@@ -28,7 +28,6 @@ dotfiles/
 ├── nvim-lite/          # Neovim config
 ├── themes/             # zsh2000-node submodule
 ├── opencode/           # Opencode configuration
-├── tmux/               # tmux config
 └── gnupg/              # Public keys
 ```
 
