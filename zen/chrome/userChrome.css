@@ -7,12 +7,14 @@
 zen-workspace,
 #zen-browser-background,
 #zen-toolbar-background {
-  /* Base for the top half, then fading into love and finally foam at the bottom */
+  /* Base for the top half, then fading into love and finally foam at the bottom.
+   * Every stop is --rp-opacity opaque so macOS window vibrancy blurs through. */
+  --rp-opacity: 0%;
   --rp-gradient: linear-gradient(180deg,
-      #232136 0%,
-      #232136 50%,
-      color-mix(in srgb, #eb6f92 14%, #232136) 75%,
-      color-mix(in srgb, #9ccfd8 20%, #232136) 100%);
+      color-mix(in srgb, #232136 var(--rp-opacity), transparent) 0%,
+      color-mix(in srgb, #232136 var(--rp-opacity), transparent) 50%,
+      color-mix(in srgb, color-mix(in srgb, #eb6f92 14%, #232136) var(--rp-opacity), transparent) 75%,
+      color-mix(in srgb, color-mix(in srgb, #9ccfd8 20%, #232136) var(--rp-opacity), transparent) 100%);
 
   color-scheme: dark !important;
   --zen-primary-color: #c4a7e7 !important;
