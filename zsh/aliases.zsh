@@ -4,9 +4,10 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 
-alias ls='eza --icons --group-directories-first'
-alias l='eza -lahb --icons --git --group-directories-first'
-alias lt='eza -lahb --tree --level=2 --icons --group-directories-first --ignore-glob "node_modules"'
+# LS_COLORS overrides eza's theme.yml, so clear it for eza only.
+alias ls='LS_COLORS= eza --icons --group-directories-first'
+alias l='LS_COLORS= eza -lahb --icons --git --group-directories-first'
+alias lt='LS_COLORS= eza -lahb --tree --level=2 --icons --group-directories-first --ignore-glob "node_modules"'
 
 alias reload='source ~/.zshrc'
 
