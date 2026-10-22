@@ -5,7 +5,6 @@
 () {
   local base='#232136' overlay='#393552' muted='#6e6a86' subtle='#908caa' text='#e0def4'
   local love='#eb6f92' gold='#f6c177' rose='#ea9a97' pine='#3e8fb0' foam='#9ccfd8' iris='#c4a7e7'
-  local hl_high='#56526e'
 
   # Left frame
   typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX="%F{$muted}╭─"
@@ -13,16 +12,17 @@
   typeset -g POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="%F{$muted}╰─"
   typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_FOREGROUND=$muted
 
-  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=$base
+  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=$overlay
   typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND=$iris
 
   typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=$foam
   typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=$love
 
   typeset -g POWERLEVEL9K_DIR_BACKGROUND=$foam
-  typeset -g POWERLEVEL9K_DIR_FOREGROUND=$base
-  typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND=$hl_high
-  typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND=$base
+  typeset -g POWERLEVEL9K_DIR_FOREGROUND=$overlay
+  typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND=$overlay
+  typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND=$overlay
+  typeset -g POWERLEVEL9K_DIR_VISUAL_IDENTIFIER_COLOR=$overlay
 
   typeset -g POWERLEVEL9K_VCS_CLEAN_BACKGROUND=$rose
   typeset -g POWERLEVEL9K_VCS_MODIFIED_BACKGROUND=$gold
