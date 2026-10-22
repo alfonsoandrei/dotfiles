@@ -150,6 +150,17 @@ install_yazi_packages() {
   ya pkg install || echo "Warning: ya pkg install failed; re-run it manually." >&2
 }
 
+build_bat_cache() {
+  if ! command -v bat >/dev/null 2>&1; then
+    echo "==> Skipping bat theme cache (bat not installed)"
+    return
+  fi
+
+  # delta reads the rose-pine-moon syntax theme from bat's cache.
+  echo "==> Building bat theme cache..."
+  bat cache --build >/dev/null || echo "Warning: bat cache --build failed; re-run it manually." >&2
+}
+
 stow_dotfiles() {
   local pkg failed=0
 

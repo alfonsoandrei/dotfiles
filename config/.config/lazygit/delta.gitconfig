@@ -1,0 +1,26 @@
+# delta settings for lazygit only, loaded with `delta --config` in place of ~/.gitconfig.
+# Rosé Pine Moon, https://rosepinetheme.com/palette
+# Syntax theme comes from bat: config/.config/bat/themes, then `bat cache --build`.
+# Diff backgrounds are love (removed) and pine (added) mixed into base.
+[delta]
+    dark = true
+    line-numbers = true
+    syntax-theme = rose-pine-moon
+    minus-style = syntax "#412d44"
+    minus-emph-style = syntax "#5f3852"
+    plus-style = syntax "#273248"
+    plus-emph-style = syntax "#2b425b"
+    file-style = "#c4a7e7" bold
+    file-decoration-style = "#6e6a86" ul
+    hunk-header-style = file line-number syntax
+    hunk-header-decoration-style = "#6e6a86" box
+    hunk-header-file-style = "#9ccfd8"
+    hunk-header-line-number-style = "#f6c177"
+    line-numbers-minus-style = "#eb6f92"
+    line-numbers-plus-style = "#9ccfd8"
+    line-numbers-zero-style = "#6e6a86"
+    line-numbers-left-style = "#393552"
+    line-numbers-right-style = "#393552"
+    commit-style = "#f6c177"
+    commit-decoration-style = "#c4a7e7" box
+    blame-palette = "#232136 #2a273f #393552"

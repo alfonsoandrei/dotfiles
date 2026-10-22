@@ -100,6 +100,7 @@ install_omarchy() {
   create_local_templates
   stow_dotfiles
   install_yazi_packages
+  build_bat_cache
   install_omz
   install_zsh_plugins
   install_neovim_node_deps

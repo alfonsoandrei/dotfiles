@@ -1,0 +1,43 @@
+# Rosé Pine Moon, https://rosepinetheme.com/palette
+gui:
+  nerdFontsVersion: "3"
+  border: rounded
+  showRandomTip: false
+  showBottomLine: false
+  showDivergenceFromBaseBranch: arrowAndNumber
+  theme:
+    activeBorderColor:
+      - "#c4a7e7"
+      - bold
+    inactiveBorderColor:
+      - "#6e6a86"
+    searchingActiveBorderColor:
+      - "#f6c177"
+      - bold
+    optionsTextColor:
+      - "#9ccfd8"
+    selectedLineBgColor:
+      - "#393552"
+    inactiveViewSelectedLineBgColor:
+      - "#2a273f"
+    cherryPickedCommitFgColor:
+      - "#232136"
+    cherryPickedCommitBgColor:
+      - "#ea9a97"
+    markedBaseCommitFgColor:
+      - "#232136"
+    markedBaseCommitBgColor:
+      - "#f6c177"
+    unstagedChangesColor:
+      - "#eb6f92"
+    defaultFgColor:
+      - "#e0def4"
+
+git:
+  # Cycle with `|`. lazygit's diff pane is narrow, so side-by-side is the second option.
+  # delta reads delta.gitconfig instead of ~/.gitconfig, so these colors stay lazygit-only.
+  pagers:
+    - colorArg: always
+      pager: delta --paging=never --config "$HOME/.config/lazygit/delta.gitconfig"
+    - colorArg: always
+      pager: delta --paging=never --config "$HOME/.config/lazygit/delta.gitconfig" --side-by-side
