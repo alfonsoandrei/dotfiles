@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+# Keep the shell's FZF_DEFAULT_OPTS (with Rosé Pine colors) when sourced from zsh.
+export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS:---height 40% --layout=reverse --border}"
 
 function fzf-pass-copy() {
   local out key selection
