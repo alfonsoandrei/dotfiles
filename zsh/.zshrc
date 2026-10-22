@@ -59,6 +59,7 @@ fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+source "$DOTFILES/zsh/p10k-rose-pine-moon.zsh"
 
 # Obsidian Vault Path
 # export VAULT_DIR_NOTES=""
