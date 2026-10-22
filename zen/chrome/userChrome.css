@@ -53,6 +53,13 @@ zen-workspace,
   --link-color: #9ccfd8 !important;
 }
 
+/* Zen sets SF Pro on :root for macOS, and menus and inputs use the system font,
+ * so override everything in the browser UI. */
+:root,
+:root * {
+  font-family: "JetBrainsMono Nerd Font", "JetBrainsMono NF", ui-monospace, monospace !important;
+}
+
 ::selection {
   background-color: #44415a;
   color: #e0def4;
