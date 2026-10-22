@@ -28,6 +28,7 @@ dotfiles/
 ├── nvim-lite/          # Neovim config
 ├── themes/             # zsh2000-node submodule
 ├── opencode/           # Opencode configuration
+├── zen/                # Zen browser userChrome.css + user.js (linked into profile, not stowed)
 └── gnupg/              # Public keys
 ```
 
@@ -46,6 +47,7 @@ dotfiles/
 | Neovim | `nvim-lite/.config/nvim-lite/` | `NVIM_APPNAME=nvim-lite` |
 | Markdown viewer | `config/.config/mdfried/config.toml` | macOS reads it through `macos-mdfried/` |
 | Zsh theme | `themes/.zsh2000-node/` | Submodule |
+| Zen browser | `zen/` | Symlink `user.js` and `chrome/userChrome.css` into the Zen profile |
 
 ## COMMANDS
 
