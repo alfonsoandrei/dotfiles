@@ -1,3 +1,18 @@
 font_family = "JetBrainsMono Nerd Font"
 # mdfried 0.22 sends the fence label as line 1 and pads each line with spaces. mmdc rejects both.
 mermaid = "sed -e 1d -e 's/[[:space:]]*$//' | mmdc -i - -o - -e png -t dark -b transparent"
+
+# Rosé Pine Moon, https://rosepinetheme.com/palette
+[theme]
+code_theme = "Rosé Pine Moon"
+header_color = "#c4a7e7"
+emphasis_color = "#f6c177"
+prefix_color = "#908caa"
+code_fg = "#d7827e"
+code_bg = "#393552"
+link_fg = "#9ccfd8"
+link_bg = "#393552"
+hr_color = "#6e6a86"
+table_border_color = "#6e6a86"
+table_header_color = "#e0def4"
+blockquote_colors = ["#eb6f92", "#f6c177", "#ea9a97", "#3e8fb0", "#9ccfd8", "#c4a7e7"]
