@@ -1,0 +1,35 @@
+{
+  "$schema": "https://vicinae.com/schemas/config.json",
+  "telemetry": {
+    "system_info": false
+  },
+  "keybinding": "vim",
+  "font": {
+    "normal": {
+      "family": "JetBrainsMono Nerd Font"
+    }
+  },
+  "theme": {
+    "light": {
+      "name": "rose-pine-moon"
+    },
+    "dark": {
+      "name": "rose-pine-moon"
+    }
+  },
+  "providers": {
+    "shortcuts": {
+      "entrypoints": {
+        "sct_google": {
+          "alias": "g"
+        },
+        "sct_youtube": {
+          "alias": "y"
+        },
+        "sct_jira": {
+          "alias": "j"
+        }
+      }
+    }
+  }
+}
