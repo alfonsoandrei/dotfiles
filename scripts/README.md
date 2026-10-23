@@ -67,3 +67,9 @@ Enter           # Copy selected password to clipboard
 `~/.local/bin/clipboard-copy` and `clipboard-paste` use `pbcopy` and `pbpaste` on macOS, and `wl-copy` and `wl-paste` on Linux. The shell, 2FA, and pass picker call them.
 
 `~/.local/bin/pinentry-auto` chooses `pinentry-mac` on macOS and a Qt, GNOME, or curses pinentry on Linux. `setup-yubikey.sh` points `gpg-agent` at it.
+
+---
+
+## AeroSpace window picker
+
+`~/.scripts/aerospace-picker` lists every AeroSpace window and workspace in a Vicinae menu. Picking one jumps to it. With `--bring`, it lists only windows and moves the chosen one to the current workspace. AeroSpace binds it to `⌥;` and `⌥'`.

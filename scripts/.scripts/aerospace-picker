@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+# Pick an AeroSpace window or workspace in Vicinae.
+# aerospace-picker         jump to the chosen window or workspace
+# aerospace-picker --bring move the chosen window to the current workspace
+
+set -eo pipefail
+export PATH="/opt/homebrew/bin:$PATH"
+
+bring=false
+[ "${1:-}" = "--bring" ] && bring=true
+
+here=$(aerospace list-workspaces --focused)
+lines=()
+targets=()
+
+# Labels must be unique because Vicinae returns the chosen label.
+add() {
+  local label=$1 n=2 existing
+  for existing in "${lines[@]}"; do
+    [ "$existing" = "$label" ] && label="$1 ($((n++)))"
+  done
+  lines+=("$label")
+  targets+=("$2")
+}
+
+while IFS=$'\t' read -r id ws app title; do
+  add "$app — ${title:-untitled}  [$ws]" "window:$id"
+done < <(aerospace list-windows --all --format $'%{window-id}\t%{workspace}\t%{app-name}\t%{window-title}')
+
+if ! $bring; then
+  for ws in $(aerospace list-workspaces --monitor all --empty no); do
+    apps=$(aerospace list-windows --workspace "$ws" --format '%{app-name}' | paste -sd ',' - | sed 's/,/, /g')
+    add "Workspace $ws — $apps" "workspace:$ws"
+  done
+fi
+
+[ ${#lines[@]} -eq 0 ] && exit 0
+
+prompt="Jump to window or workspace"
+$bring && prompt="Bring window to workspace $here"
+
+choice=$(printf '%s\n' "${lines[@]}" | vicinae dmenu -n "AeroSpace" -p "$prompt" --no-quick-look) || exit 0
+
+pick=""
+for i in "${!lines[@]}"; do
+  [ "${lines[$i]}" = "$choice" ] && pick=${targets[$i]} && break
+done
+[ -z "$pick" ] && exit 0
+
+case $pick in
+  window:*)
+    id=${pick#window:}
+    $bring && aerospace move-node-to-workspace --window-id "$id" "$here"
+    aerospace focus --window-id "$id"
+    ;;
+  workspace:*)
+    aerospace workspace "${pick#workspace:}"
+    ;;
+esac
