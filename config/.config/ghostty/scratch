@@ -1,0 +1,8 @@
+# Floating scratchpad window, loaded on top of the main config by ~/.scripts/scratch.
+# AeroSpace floats Ghostty windows titled "scratch".
+title = scratch
+window-width = 80
+window-height = 45
+window-save-state = never
+quit-after-last-window-closed = true
+command = nvim --listen "$SCRATCH_SOCKET" -c "lua require('scratch').start()"
