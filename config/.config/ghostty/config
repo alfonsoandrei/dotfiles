@@ -22,13 +22,13 @@ cursor-style-blink = true
 # --- Appearance ---
 
 
-background-opacity = 0.96
+background-opacity = 0.70
 # NOTE: macos-glass-* blur breaks titlebar/tab-bar rendering on macOS 26
 # (turns white/transparent in fullscreen). Upstream bug, still open.
 # https://github.com/ghostty-org/ghostty/discussions/10121
 # background-blur = macos-glass-clear
 # background-blur = macos-glass-regular
-background-blur = 20
+background-blur = 15
 # cursor-color = #879EB6
 
 # --- Clipboard ---
