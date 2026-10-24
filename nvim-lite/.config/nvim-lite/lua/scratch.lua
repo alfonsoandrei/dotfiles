@@ -112,9 +112,16 @@ function M.start()
   M.run(vim.env.SCRATCH_ACTION, vim.env.SCRATCH_FILE)
 end
 
+-- Float and center the window once AeroSpace has placed it, and after ~/.scripts/scratch moved it
+-- to the current workspace.
+local function place()
+  vim.defer_fn(function() vim.system({ vim.fn.expand("~/.scripts/scratch"), "place" }) end, 300)
+end
+
 -- Called at startup and by ~/.scripts/scratch through the --listen socket when the window is already open.
 -- Leave insert mode first, and run on the next tick so the RPC call returns straight away.
 function M.run(action, file)
+  place()
   vim.schedule(function()
     vim.cmd.stopinsert()
     if action == "open" and file and file ~= "" then

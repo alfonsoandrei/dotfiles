@@ -3,6 +3,7 @@
 # scratch new      start a new note
 # scratch last     reopen the last note
 # scratch history  pick a note in Vicinae, most recently opened first
+# scratch place    float and center the window (nvim runs this inside it)
 # If the scratch window is already open, the note opens there and the window comes to the current workspace.
 
 set -eo pipefail
@@ -41,6 +42,17 @@ run() {
     --args --config-file="$HOME/.config/ghostty/scratch"
 }
 
+# AeroSpace's title rule misses the window when it sees it before Ghostty sets the title, and it floats
+# the window where its tile would have gone. This runs from inside the window, because moving it needs
+# Accessibility, which Ghostty has.
+place() {
+  local window
+  window=$(scratch_window)
+  [ -n "$window" ] || return 0
+  aerospace layout --window-id "$window" floating >/dev/null 2>&1 || true
+  "$HOME/.scripts/center-window" scratch
+}
+
 # Rows are "file — first heading". History comes first, then notes never opened from here, newest first.
 history() {
   local files=() lines=() picked=() f p title choice i search="Search inside notes…"
@@ -67,5 +79,6 @@ history() {
 case ${1:-last} in
   new|last) run "${1:-last}" ;;
   history) history ;;
-  *) echo "usage: scratch new|last|history" >&2; exit 2 ;;
+  place) place ;;
+  *) echo "usage: scratch new|last|history|place" >&2; exit 2 ;;
 esac
