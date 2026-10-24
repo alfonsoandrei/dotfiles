@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# Open the scratchpad: nvim-lite in a floating Ghostty window over ~/Documents/git/scratch.
+# scratch new      start a new note
+# scratch last     reopen the last note
+# scratch history  pick a note in Vicinae, most recently opened first
+# If the scratch window is already open, the note opens there and the window comes to the current workspace.
+
+set -eo pipefail
+export PATH="/opt/homebrew/bin:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+
+dir="$HOME/Documents/git/scratch"
+state="$HOME/.local/state/nvim-lite"
+socket="$state/scratch.sock"
+
+scratch_window() {
+  aerospace list-windows --all --format '%{window-id}|%{app-bundle-id}|%{window-title}' |
+    awk -F'|' '$2 == "com.mitchellh.ghostty" && $3 == "scratch" { print $1; exit }'
+}
+
+# run <action> [file]: do it in the open scratch window, or open one that starts with it.
+run() {
+  local window
+  window=$(scratch_window)
+  if [ -n "$window" ]; then
+    # Double any ' for the Vim string.
+    local file
+    file=$(printf '%s' "${2:-}" | sed "s/'/''/g")
+    nvim --server "$socket" --remote-expr "v:lua.require'scratch'.run('$1', '$file')" >/dev/null
+    aerospace move-node-to-workspace --window-id "$window" "$(aerospace list-workspaces --focused)" >/dev/null 2>&1
+    aerospace focus --window-id "$window"
+    return
+  fi
+
+  # No window means any socket left behind is stale.
+  mkdir -p "$state"
+  rm -f "$socket"
+  # A separate Ghostty instance, because only its own config can force the title AeroSpace floats on.
+  # Its command lives in that config: a command passed on the command line asks for permission every time.
+  open -na Ghostty --env NVIM_APPNAME=nvim-lite --env PATH="$PATH" \
+    --env SCRATCH_SOCKET="$socket" --env SCRATCH_ACTION="$1" --env SCRATCH_FILE="${2:-}" \
+    --args --config-file="$HOME/.config/ghostty/scratch"
+}
+
+# Rows are "file — first heading". History comes first, then notes never opened from here, newest first.
+history() {
+  local files=() lines=() picked=() f p title choice i search="Search inside notes…"
+  if [ -f "$state/scratch-history" ]; then
+    while IFS= read -r f; do files+=("$f"); done < "$state/scratch-history"
+  fi
+  while IFS= read -r f; do files+=("$f"); done < <(/bin/ls -t "$dir"/*.md 2>/dev/null)
+
+  for f in "${files[@]}"; do
+    [ -f "$f" ] || continue
+    for p in "${picked[@]}"; do [ "$p" = "$f" ] && continue 2; done
+    title=$(grep -m1 '^#' "$f" 2>/dev/null | sed 's/^#* *//') || true
+    lines+=("$(basename "$f")${title:+ — $title}")
+    picked+=("$f")
+  done
+
+  choice=$(printf '%s\n' "$search" "${lines[@]}" | vicinae dmenu -n "Scratch" -p "Find a note") || exit 0
+  [ "$choice" = "$search" ] && { run grep; return; }
+  for i in "${!lines[@]}"; do
+    [ "${lines[$i]}" = "$choice" ] && { run open "${picked[$i]}"; return; }
+  done
+}
+
+case ${1:-last} in
+  new|last) run "${1:-last}" ;;
+  history) history ;;
+  *) echo "usage: scratch new|last|history" >&2; exit 2 ;;
+esac

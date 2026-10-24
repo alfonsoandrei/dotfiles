@@ -73,3 +73,9 @@ Enter           # Copy selected password to clipboard
 ## AeroSpace window picker
 
 `~/.scripts/aerospace-picker` lists every AeroSpace window and workspace in a Vicinae menu. Picking one jumps to it. With `--bring`, it lists only windows and moves the chosen one to the current workspace. AeroSpace binds it to `⌥;` and `⌥'`.
+
+---
+
+## Scratchpad
+
+`~/.scripts/scratch new|last|history` opens nvim-lite in a floating Ghostty window over `~/Documents/git/scratch`. `new` starts a timestamped note, and `last` reopens the last note you opened. `history` lists notes in a Vicinae menu by when you last opened them, with a first row that searches inside them. Type `nn` or `nl` in Vicinae, or press `⌥N` for history. Inside the window, `<leader>xn`, `<leader>xl` and `<leader>xh` do the same. If the window is already open, the note opens there through nvim's `--listen` socket and the window comes to the current workspace.
