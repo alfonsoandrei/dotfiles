@@ -23,7 +23,7 @@ gaps.inner.horizontal = 20
 gaps.inner.vertical =   20
 gaps.outer.left =       14
 gaps.outer.bottom =     14
-gaps.outer.top =        14
+gaps.outer.top =        50
 gaps.outer.right =      14
 [mode.main.binding]
     alt-slash = 'layout tiles horizontal vertical'
