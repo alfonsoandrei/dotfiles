@@ -1,12 +1,12 @@
 #!/bin/bash
 # JankyBorders, started by `brew services start borders`.
-# Rosé Pine Moon: glowing iris on the focused window, overlay on the rest.
+# Rosé Pine Moon: glowing iris on the focused window, dimmed overlay on the rest.
 options=(
   style=round
-  width=7.0
+  width=12.0
   hidpi=on
   active_color="glow(0xffc4a7e7)"
-  inactive_color=0xff393552
+  inactive_color=0x80393552
 )
 
 borders "${options[@]}"
