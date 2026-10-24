@@ -40,6 +40,12 @@
         "aerospace-toggle.sh": {
           "alias": "aero",
           "shortcut": "super+alt+a"
+        },
+        "scratch-new.sh": {
+          "alias": "nn"
+        },
+        "scratch-last.sh": {
+          "alias": "nl"
         }
       }
     }
