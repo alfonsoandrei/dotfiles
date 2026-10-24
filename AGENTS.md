@@ -29,7 +29,7 @@ dotfiles/
 ├── nvim-lite/          # Neovim config
 ├── themes/             # zsh2000-node submodule
 ├── opencode/           # Opencode configuration
-├── zen/                # Zen browser userChrome.css + user.js (linked into profile, not stowed)
+├── zen/                # Zen browser userChrome.css, user.js and JS scripts (linked into profile, not stowed)
 └── gnupg/              # Public keys
 ```
 
@@ -49,7 +49,7 @@ dotfiles/
 | Markdown viewer | `config/.config/mdfried/config.toml` | macOS reads it through `macos-mdfried/` |
 | Lazygit | `config/.config/lazygit/config.yml` | macOS reads it through `macos-lazygit/` |
 | Zsh theme | `themes/.zsh2000-node/` | Submodule |
-| Zen browser | `zen/` | Symlink `user.js` and `chrome/userChrome.css` into the Zen profile |
+| Zen browser | `zen/` | Symlink `user.js`, `chrome/userChrome.css` and each `chrome/JS/*.uc.js` into the Zen profile. The JS needs [fx-autoconfig](https://github.com/MrOtherGuy/fx-autoconfig): its `program/` files go in `Zen.app/Contents/Resources/` (a Zen update removes them) and its `profile/chrome/utils/` in the profile |
 
 ## COMMANDS
 
