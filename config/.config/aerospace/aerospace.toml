@@ -118,3 +118,8 @@ gaps.outer.right =      14
 [[on-window-detected]]
     if.app-id = 'com.vicinaehq.Vicinae'
     run = 'layout floating'
+
+[[on-window-detected]]
+    if.app-id = 'us.zoom.xos'
+    if.window-title-regex-substring = 'Zoom Meeting'
+    run = 'layout tiling'
