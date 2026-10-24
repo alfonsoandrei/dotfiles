@@ -9,6 +9,10 @@
       "family": "JetBrainsMono Nerd Font"
     }
   },
+  "launcher_window": {
+    "opacity": 0.8,
+    "material": "none"
+  },
   "theme": {
     "light": {
       "name": "rose-pine-moon"
