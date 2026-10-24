@@ -36,7 +36,8 @@ background-blur = 20
 # clipboard-write = allow
 
 # --- Splits (vim-style) ---
-keybind = super+alt+h=goto_split:left
-keybind = super+alt+j=goto_split:down
-keybind = super+alt+k=goto_split:up
-keybind = super+alt+l=goto_split:right
+keybind = super+h=goto_split:left
+keybind = super+j=goto_split:down
+keybind = super+k=goto_split:up
+keybind = super+l=goto_split:right
+keybind = super+t=new_window
