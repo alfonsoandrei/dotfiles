@@ -7,7 +7,7 @@ export PATH="/opt/homebrew/bin:$PATH"
 
 FONT="JetBrainsMono Nerd Font"
 
-sketchybar --bar position=top height=32 blur_radius=20 color="$BAR" \
+sketchybar --bar display=all position=top height=32 blur_radius=20 color="$BAR" \
   margin=8 y_offset=4 corner_radius=10 padding_left=6 padding_right=6
 
 sketchybar --default \
@@ -30,7 +30,7 @@ done
 
 sketchybar --add item aerospace left \
   --set aerospace drawing=off updates=on script="$PLUGIN_DIR/aerospace.sh" \
-  --subscribe aerospace aerospace_workspace_change front_app_switched space_windows_change system_woke
+  --subscribe aerospace aerospace_workspace_change front_app_switched space_windows_change system_woke display_change
 
 sketchybar --add item front_app left \
   --set front_app icon.drawing=off label.color="$IRIS" padding_left=12 script="$PLUGIN_DIR/front_app.sh" \
