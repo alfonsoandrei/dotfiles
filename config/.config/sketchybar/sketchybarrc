@@ -52,4 +52,9 @@ sketchybar --add item vpn right \
     click_script="open -a 'AWS VPN Client'" \
   --subscribe vpn system_woke
 
+sketchybar --add item wifi right \
+  --set wifi label.drawing=off update_freq=60 script="$PLUGIN_DIR/wifi.sh" \
+    click_script="open 'x-apple.systempreferences:com.apple.wifi-settings-extension'" \
+  --subscribe wifi wifi_change system_woke
+
 sketchybar --update
