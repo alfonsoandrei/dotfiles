@@ -18,6 +18,31 @@ local function bitbucket_file(f)
   return ("/src/%s/%s?at=%s%s"):format(vim.trim(res.stdout), f.file, at, bitbucket_lines(f))
 end
 
+-- Snacks pickers are floating windows, and vim-tmux-navigator never sees a float at the
+-- edge, so <C-h/j/k/l> got stuck in nvim. The explorer sits on a real sidebar window
+-- (the layout root): look for a neighbour from there and fall back to tmux at the edge.
+-- Floating pickers close and navigate from the window they were opened from.
+-- Leave insert mode first and move on the next tick, or keystrokes leak into the target buffer.
+local function tmux_navigate(key, pane, command)
+  return function(picker)
+    vim.cmd.stopinsert()
+    local root = picker.layout.root and picker.layout.root.win
+    if root and vim.api.nvim_win_is_valid(root) and vim.api.nvim_win_get_config(root).relative == "" then
+      local target = vim.api.nvim_win_call(root, function() return vim.fn.win_getid(vim.fn.winnr(key)) end)
+      vim.schedule(function()
+        if target ~= root then
+          vim.api.nvim_set_current_win(target)
+        elseif vim.env.TMUX then
+          vim.system({ "tmux", "select-pane", "-" .. pane })
+        end
+      end)
+    else
+      picker:close()
+      vim.schedule(function() vim.cmd("TmuxNavigate" .. command) end)
+    end
+  end
+end
+
 return {
   "folke/snacks.nvim",
   lazy = false,
@@ -35,7 +60,45 @@ return {
         },
       },
     },
-    picker = { enabled = true },
+    picker = {
+      enabled = true,
+      actions = {
+        tmux_left = tmux_navigate("h", "L", "Left"),
+        tmux_down = tmux_navigate("j", "D", "Down"),
+        tmux_up = tmux_navigate("k", "U", "Up"),
+        tmux_right = tmux_navigate("l", "R", "Right"),
+      },
+      -- Pickers keep <C-j>/<C-k> for moving through results.
+      win = {
+        input = {
+          keys = {
+            ["<c-h>"] = { "tmux_left", mode = { "i", "n" } },
+            ["<c-l>"] = { "tmux_right", mode = { "i", "n" } },
+          },
+        },
+        list = {
+          keys = {
+            ["<c-h>"] = "tmux_left",
+            ["<c-l>"] = "tmux_right",
+          },
+        },
+      },
+      -- The explorer list is in normal mode where j/k already move, so all four go to tmux.
+      sources = {
+        explorer = {
+          win = {
+            list = {
+              keys = {
+                ["<c-h>"] = "tmux_left",
+                ["<c-j>"] = "tmux_down",
+                ["<c-k>"] = "tmux_up",
+                ["<c-l>"] = "tmux_right",
+              },
+            },
+          },
+        },
+      },
+    },
     notifier = { enabled = true },
     explorer = { enabled = true },
     indent = { enabled = true },
