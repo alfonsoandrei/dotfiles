@@ -69,11 +69,7 @@ map("v", "S", function()
   vim.cmd("normal! c" .. left .. "\027pa" .. right .. "\027")
 end, { noremap = true, desc = "Surround selection" })
 
--- Window navigation
-map("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window" })
-map("n", "<C-j>", "<C-w>j", { desc = "Go to Lower Window" })
-map("n", "<C-k>", "<C-w>k", { desc = "Go to Upper Window" })
-map("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window" })
+-- vim-tmux-navigator (handles C-h/j/k/l for both nvim windows and tmux panes)
 
 -- Better buffer navigation
 map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })

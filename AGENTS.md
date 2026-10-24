@@ -30,6 +30,7 @@ dotfiles/
 ├── themes/             # zsh2000-node submodule
 ├── opencode/           # Opencode configuration
 ├── zen/                # Zen browser userChrome.css, user.js and JS scripts (linked into profile, not stowed)
+├── tmux/               # tmux config
 └── gnupg/              # Public keys
 ```
 

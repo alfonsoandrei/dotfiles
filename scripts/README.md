@@ -64,7 +64,7 @@ Enter           # Copy selected password to clipboard
 
 ## Clipboard and pinentry
 
-`~/.local/bin/clipboard-copy` and `clipboard-paste` use `pbcopy` and `pbpaste` on macOS, and `wl-copy` and `wl-paste` on Linux. The shell, 2FA, and pass picker call them.
+`~/.local/bin/clipboard-copy` and `clipboard-paste` use `pbcopy` and `pbpaste` on macOS, and `wl-copy` and `wl-paste` on Linux. The shell, tmux, 2FA, and pass picker call them.
 
 `~/.local/bin/pinentry-auto` chooses `pinentry-mac` on macOS and a Qt, GNOME, or curses pinentry on Linux. `setup-yubikey.sh` points `gpg-agent` at it.
 

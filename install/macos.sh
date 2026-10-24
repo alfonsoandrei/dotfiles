@@ -73,6 +73,7 @@ install_macos() {
   build_bat_cache
   install_omz
   install_zsh_plugins
+  install_tmux_plugins
   configure_gpg_agent
   install_ghostty_nvim_opener
   apply_macos_defaults

@@ -16,6 +16,7 @@ Terminal configuration managed with [GNU Stow](https://www.gnu.org/software/stow
 | `nvim-lite` | `~/.config/nvim-lite/` | Neovim config (`NVIM_APPNAME=nvim-lite`) |
 | `themes` | `~/.zsh2000-node/` | Zsh theme (submodule → [alfonsoandrei/zsh2000-node](https://github.com/alfonsoandrei/zsh2000-node)) |
 | `opencode` | `~/.config/opencode/` | Opencode configuration |
+| `tmux` | `~/.tmux.conf` | tmux config and TPM plugins |
 | `gnupg` | `~/public-keys/` | Public keys used by `setup-pass.sh` |
 
 `gpg-agent.conf` is generated, not stowed. `./install.sh`, `./setup-gpg-agent.sh`, and `./setup-yubikey.sh` render it from `install/gpg-agent.conf.in` into `GNUPGHOME` (default `~/.gnupg`) with an absolute `pinentry-auto` path.
@@ -114,12 +115,12 @@ Use this only when prerequisites are already installed. Stow links files only; i
 cd ~/dotfiles
 
 # macOS
-stow --simulate zsh git config ssh macos-ssh macos-mdfried scripts nvim-lite themes opencode gnupg
-stow zsh git config ssh macos-ssh macos-mdfried scripts nvim-lite themes opencode gnupg
+stow --simulate zsh git config ssh macos-ssh macos-mdfried scripts nvim-lite themes opencode tmux gnupg
+stow zsh git config ssh macos-ssh macos-mdfried scripts nvim-lite themes opencode tmux gnupg
 
 # Omarchy
-stow --simulate zsh git config ssh scripts nvim-lite themes opencode gnupg
-stow zsh git config ssh scripts nvim-lite themes opencode gnupg
+stow --simulate zsh git config ssh scripts nvim-lite themes opencode tmux gnupg
+stow zsh git config ssh scripts nvim-lite themes opencode tmux gnupg
 ```
 
 On macOS, `macos-ssh` is required for `ssh orb`. `macos-mdfried` is required because mdfried reads its config from `~/Library/Application Support`, not `~/.config`.

@@ -1,6 +1,22 @@
 nb-feat() { git checkout -b "feature/$1"; }
 nb-fix()  { git checkout -b "hotfix/$1"; }
 
+ts() {
+  local session
+  session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null \
+    | fzf --prompt="session: " --print-query --expect=enter \
+    | tail -1)
+  [ -z "$session" ] && return
+  if ! tmux has-session -t "$session" 2>/dev/null; then
+    tmux new-session -ds "$session"
+  fi
+  if [ -n "$TMUX" ]; then
+    tmux switch-client -t "$session"
+  else
+    tmux attach-session -t "$session"
+  fi
+}
+
 function yy() {
     local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
     yazi "$@" --cwd-file="$tmp"
