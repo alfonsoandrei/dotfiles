@@ -24,7 +24,7 @@ macos-titlebar-proxy-icon = hidden
 # --- Appearance ---
 
 
-background-opacity = 0.70
+background-opacity = 0.9
 # NOTE: macos-glass-* blur breaks titlebar/tab-bar rendering on macOS 26
 # (turns white/transparent in fullscreen). Upstream bug, still open.
 # https://github.com/ghostty-org/ghostty/discussions/10121
