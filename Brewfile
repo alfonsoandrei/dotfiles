@@ -1,5 +1,6 @@
 brew "bat"
 brew "btop"
+brew "duti"
 brew "eza"
 brew "fd"
 brew "fzf"

@@ -30,6 +30,24 @@ apply_macos_defaults() {
   defaults write -g NSWindowShouldDragOnGesture -bool true
 }
 
+install_ghostty_nvim_opener() {
+  local app="$HOME/Applications/Ghostty Nvim.app"
+  local lsregister=/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister
+
+  echo "==> Building Ghostty Nvim.app and making it the plain-text handler..."
+  mkdir -p "$HOME/Applications"
+  rm -rf "$app"
+  osacompile -o "$app" "$DOTFILES/install/ghostty-nvim.applescript"
+  plutil -replace CFBundleIdentifier -string "local.dotfiles.ghostty-nvim" "$app/Contents/Info.plist"
+  plutil -replace CFBundleDocumentTypes -json \
+    '[{"CFBundleTypeName":"Plain text","CFBundleTypeRole":"Editor","LSHandlerRank":"Alternate","LSItemContentTypes":["public.plain-text"]}]' \
+    "$app/Contents/Info.plist"
+  # Editing Info.plist invalidates osacompile's signature.
+  codesign --force --sign - "$app"
+  "$lsregister" -f "$app"
+  duti -s local.dotfiles.ghostty-nvim public.plain-text all
+}
+
 echo_next_steps() {
 
   echo ""
@@ -56,6 +74,7 @@ install_macos() {
   install_omz
   install_zsh_plugins
   configure_gpg_agent
+  install_ghostty_nvim_opener
   apply_macos_defaults
   echo_next_steps
 }
