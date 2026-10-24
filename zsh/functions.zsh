@@ -82,3 +82,29 @@ tunnel() {
 
 unalias gb 2>/dev/null
 gb() { git branch --all | fzf --preview 'git log --oneline -20 {}' | sed 's|remotes/origin/||' | xargs git checkout; }
+
+_wt_list() {
+  local git_dir
+  for git_dir in ~/Documents/git/*/.git(N/); do
+    git -C "${git_dir:h}" worktree prune
+    git -C "${git_dir:h}" worktree list
+  done
+}
+
+wt() {
+  local dir
+  dir=$(_wt_list | fzf --prompt="worktree: " --preview 'git -C {1} log --oneline -10' | awk '{print $1}')
+  [ -n "$dir" ] && cd "$dir"
+}
+
+# `git worktree remove` refuses a tree with changes, so nothing unsaved is lost.
+wt-rm() {
+  local dir main
+  _wt_list | rg '/\.claude/worktrees/|/tmp/' \
+    | fzf --multi --prompt="remove worktree: " --preview 'git -C {1} status --short' \
+    | awk '{print $1}' \
+    | while read -r dir; do
+        main=$(git -C "$dir" rev-parse --path-format=absolute --git-common-dir)
+        git -C "${main:h}" worktree remove "$dir" && echo "removed $dir"
+      done
+}
