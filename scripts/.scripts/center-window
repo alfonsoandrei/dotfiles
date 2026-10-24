@@ -1,0 +1,31 @@
+#!/usr/bin/osascript -l JavaScript
+// center-window TITLE: center the Ghostty window with this title on the screen it is on.
+// AeroSpace can't move floating windows, so this goes through System Events,
+// which needs Accessibility for the app that runs it.
+ObjC.import('AppKit');
+
+function run(argv) {
+  const title = argv[0];
+  const se = Application('System Events');
+  const procs = se.processes.whose({ bundleIdentifier: 'com.mitchellh.ghostty' });
+  for (let i = 0; i < procs.length; i++) {
+    const wins = procs[i].windows.whose({ name: title });
+    if (wins.length === 0) continue;
+    const win = wins[0];
+    const [x, y] = win.position();
+    const [w, h] = win.size();
+
+    // NSScreen frames start at the bottom left of the primary screen; window positions start at its top left.
+    const screens = $.NSScreen.screens;
+    const primaryHeight = screens.objectAtIndex(0).frame.size.height;
+    const cx = x + w / 2, cy = y + h / 2;
+    for (let s = 0; s < screens.count; s++) {
+      const f = screens.objectAtIndex(s).visibleFrame;
+      const top = primaryHeight - (f.origin.y + f.size.height);
+      if (cx >= f.origin.x && cx < f.origin.x + f.size.width && cy >= top && cy < top + f.size.height) {
+        win.position = [Math.round(f.origin.x + (f.size.width - w) / 2), Math.round(top + (f.size.height - h) / 2)];
+        return;
+      }
+    }
+  }
+}
