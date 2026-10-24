@@ -16,7 +16,9 @@ window-padding-x = 0
 window-padding-balance = true
 window-padding-color = extend
 cursor-style-blink = true
-# macos-window-buttons = hidden
+macos-titlebar-style = hidden
+macos-window-buttons = hidden
+macos-titlebar-proxy-icon = hidden
 # title = " "
 
 # --- Appearance ---
