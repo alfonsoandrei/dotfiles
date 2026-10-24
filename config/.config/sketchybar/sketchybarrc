@@ -43,4 +43,13 @@ sketchybar --add item battery right \
   --set battery icon.color="$GOLD" update_freq=120 script="$PLUGIN_DIR/battery.sh" \
   --subscribe battery power_source_change system_woke
 
+# Aliases of these apps' menu bar icons render blank on this macOS, so use themed status items instead.
+sketchybar --add item granola right \
+  --set granola label.drawing=off update_freq=5 script="$PLUGIN_DIR/granola.sh" click_script="open -a Granola"
+
+sketchybar --add item vpn right \
+  --set vpn label.drawing=off update_freq=10 script="$PLUGIN_DIR/vpn.sh" \
+    click_script="open -a 'AWS VPN Client'" \
+  --subscribe vpn system_woke
+
 sketchybar --update
