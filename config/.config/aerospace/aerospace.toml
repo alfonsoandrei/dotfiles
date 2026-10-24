@@ -126,3 +126,7 @@ gaps.outer.right =      14
     if.app-id = 'us.zoom.xos'
     if.window-title-regex-substring = 'Zoom Meeting'
     run = 'layout tiling'
+
+[[on-window-detected]]
+    if.app-id = 'com.granola.app'
+    run = 'layout floating'
