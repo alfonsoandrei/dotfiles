@@ -55,7 +55,7 @@ place() {
 
 # Rows are "file — first heading". History comes first, then notes never opened from here, newest first.
 history() {
-  local files=() lines=() picked=() f p title choice i search="Search inside notes…"
+  local files=() lines=() picked=() f p title choice i
   if [ -f "$state/scratch-history" ]; then
     while IFS= read -r f; do files+=("$f"); done < "$state/scratch-history"
   fi
@@ -69,8 +69,7 @@ history() {
     picked+=("$f")
   done
 
-  choice=$(printf '%s\n' "$search" "${lines[@]}" | vicinae dmenu -n "Scratch" -p "Find a note") || exit 0
-  [ "$choice" = "$search" ] && { run grep; return; }
+  choice=$(printf '%s\n' "${lines[@]}" | vicinae dmenu -n "Scratch" -p "Find a note") || exit 0
   for i in "${!lines[@]}"; do
     [ "${lines[$i]}" = "$choice" ] && { run open "${picked[$i]}"; return; }
   done

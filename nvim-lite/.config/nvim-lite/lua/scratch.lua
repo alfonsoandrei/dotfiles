@@ -42,10 +42,6 @@ function M.last()
   if last then M.open(last) else M.new() end
 end
 
-function M.grep()
-  Snacks.picker.grep({ cwd = dir, glob = "*.md" })
-end
-
 -- History first, then notes never opened through here, newest first.
 function M.history()
   local seen, items = {}, {}
@@ -66,13 +62,6 @@ function M.history()
     preview = "file",
     -- Snacks closes an empty picker on its own, which would leave a bare nvim.
     show_empty = true,
-    actions = {
-      scratch_grep = function(picker)
-        picker:close()
-        M.grep()
-      end,
-    },
-    win = { input = { keys = { ["<c-g>"] = { "scratch_grep", mode = { "i", "n" }, desc = "Search inside notes" } } } },
   })
 end
 
@@ -126,7 +115,7 @@ function M.run(action, file)
     vim.cmd.stopinsert()
     if action == "open" and file and file ~= "" then
       M.open(file)
-    elseif action == "new" or action == "grep" or action == "history" then
+    elseif action == "new" or action == "history" then
       M[action]()
     else
       M.last()
