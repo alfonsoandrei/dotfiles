@@ -18,8 +18,6 @@ alias lg='NVIM_APPNAME=nvim-lite lazygit'
 alias 2fa='~/.scripts/2fa'
 alias 2fa-add='~/.scripts/2fa-add'
 
-alias gp='git push'
-
 alias d=docker
 alias dc=docker-compose
 
@@ -32,3 +30,6 @@ alias tl='tmux list-sessions'
 alias tn='tmux new-session -s'
 alias tk='tmux kill-session -t'
 alias ta='tmux attach-session -t'
+
+#yazi
+alias y='yazi'
