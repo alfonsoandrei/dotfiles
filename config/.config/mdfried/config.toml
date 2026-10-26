@@ -2,6 +2,10 @@ font_family = "JetBrainsMono Nerd Font"
 # mdfried 0.22 sends the fence label as line 1 and pads each line with spaces. mmdc rejects both.
 mermaid = "sed -e 1d -e 's/[[:space:]]*$//' | mmdc -i - -o - -e png -t dark -b transparent"
 
+# Use the full terminal width. The default centers the text at 100 columns.
+[padding]
+type = "align-left"
+
 # Rosé Pine Moon, https://rosepinetheme.com/palette
 [theme]
 code_theme = "Rosé Pine Moon"
