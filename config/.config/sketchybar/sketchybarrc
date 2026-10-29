@@ -16,6 +16,14 @@ sketchybar --default \
   padding_left=4 padding_right=4 \
   icon.padding_left=6 icon.padding_right=4 label.padding_left=4 label.padding_right=6
 
+# AeroSpace binding mode (main/service), updated by on-mode-changed in aerospace.toml.
+sketchybar --add event aerospace_mode_change
+sketchybar --add item aerospace_mode left \
+  --set aerospace_mode icon.drawing=off label.padding_left=10 label.padding_right=10 \
+    background.corner_radius=7 background.height=22 background.drawing=on \
+    script="$PLUGIN_DIR/aerospace_mode.sh" \
+  --subscribe aerospace_mode aerospace_mode_change system_woke
+
 # Workspaces: plugins/aerospace.sh adds one item per AeroSpace workspace and shows
 # the focused one (iris) and the ones that have windows (overlay).
 sketchybar --add event aerospace_workspace_change
