@@ -38,7 +38,8 @@ sketchybar --add item front_app left \
   --subscribe front_app front_app_switched
 
 sketchybar --add item clock right \
-  --set clock icon=󰥔 icon.color="$FOAM" update_freq=30 script="$PLUGIN_DIR/clock.sh"
+  --set clock icon=󰥔 icon.color="$FOAM" update_freq=1 script="$PLUGIN_DIR/clock.sh" \
+  --subscribe clock system_woke
 
 sketchybar --add item battery right \
   --set battery icon.color="$GOLD" update_freq=120 script="$PLUGIN_DIR/battery.sh" \
