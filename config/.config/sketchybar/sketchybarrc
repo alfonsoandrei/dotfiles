@@ -33,7 +33,8 @@ sketchybar --add item aerospace left \
   --subscribe aerospace aerospace_workspace_change front_app_switched space_windows_change system_woke display_change
 
 sketchybar --add item front_app left \
-  --set front_app icon.drawing=off label.color="$IRIS" padding_left=12 script="$PLUGIN_DIR/front_app.sh" \
+  --set front_app icon.background.drawing=on icon.background.image.scale=0.7 \
+    label.color="$IRIS" padding_left=12 script="$PLUGIN_DIR/front_app.sh" \
   --subscribe front_app front_app_switched
 
 sketchybar --add item clock right \
