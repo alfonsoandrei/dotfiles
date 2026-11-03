@@ -1,6 +1,6 @@
 # Shared install steps. Sourced by install.sh.
 
-PACKAGES=(zsh git config ssh scripts nvim-lite themes opencode tmux gnupg yazi)
+PACKAGES=(zsh git config ssh scripts nvim-lite themes opencode tmux gnupg yazi claude)
 
 install_omz() {
 
