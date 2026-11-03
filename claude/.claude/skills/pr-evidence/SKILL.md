@@ -9,7 +9,9 @@ Every PR ends with manual tests and evidence: for each test case, the request, t
 database before and after. Andrei pastes the PNGs and the notes into the PR. Nothing is posted by you.
 
 The harness lives in `~/Documents/git/hurl` (README.md, tickets/README.md, AGENTS.md). Its tools are on
-`PATH`: `mq`, `req`, `check`, `snapshot`, `pane2png`, `ticket-evidence`. Each takes `-t <KEY>`.
+`PATH`: `mq`, `req`, `check`, `snapshot`, `pane2png`, `ticket-evidence`. Each takes `-t <KEY>`. Andrei
+browses everything with `hx` (fzf, `ctrl-o` switches requests, queries, evidence), so give every case a
+first `#` line, every query an `"about"`, and every ticket a `ticket.json` feature: that is what he searches.
 
 ## 1. Preflight
 
@@ -27,7 +29,10 @@ Start from `tickets/_template` (`cp -R tickets/_template tickets/<KEY>`).
 - `NN-<case>.hurl`: one case per behavior. **Every expected result needs an assert**: the status, and
   the exact message or field with `jsonpath`. The first `#` line describes the case.
 - `mongo/NN-<case>.js`: a read-only check for what the case writes. Use `snapshot.get(...)` for "before".
-- `queries.json`: named reads that the panes show, each with an `"about"`. No credentials collection.
+  Its first `//` line says what it checks; the next lines say when it runs and what good looks like.
+- `queries.json`: named reads that the panes show, each with an `"about"` (one line) and `"details"`
+  (what it shows, for which records, what to look for before and after). Reuse a shared query from
+  `queries/` (`mq` lists them) before you write a new one. No credentials collection, no personal fields.
 - `vars/local.vars`: `MONGO_DB` and the test ids. **Check that a test partner's id is not a credential**:
   hurl shows it as `***` in the sent URL if it is. Never use DwollaPartner.
 - `evidence.json`:
