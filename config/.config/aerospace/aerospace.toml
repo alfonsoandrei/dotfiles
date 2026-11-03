@@ -137,6 +137,15 @@ gaps.outer.right =      14
     if.window-title-regex-substring = '^scratch$'
     run = 'layout floating'
 
+# Claude (desktop app, including Claude Code) and Codex always float.
+[[on-window-detected]]
+    if.app-id = 'com.anthropic.claudefordesktop'
+    run = 'layout floating'
+
+[[on-window-detected]]
+    if.app-id = 'com.openai.codex'
+    run = 'layout floating'
+
 # Pins. Only the first matching rule runs, so these come after the floating rules above.
 [[on-window-detected]]
     if.app-id = 'com.tinyspeck.slackmacgap'
