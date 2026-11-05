@@ -8,7 +8,7 @@ description: Prepare manual test evidence for a pull request with the hurl test 
 Every PR ends with manual tests and evidence: for each test case, the request, the response, and the
 database before and after. Andrei pastes the PNGs and the notes into the PR. Nothing is posted by you.
 
-The harness lives in `~/Documents/git/hurl` (README.md, tickets/README.md, AGENTS.md). Its tools are on
+The harness lives in `~/Documents/git/dev-tooling` (README.md, tickets/README.md, AGENTS.md). Its tools are on
 `PATH`: `mq`, `req`, `check`, `snapshot`, `pane2png`, `ticket-evidence`. Each takes `-t <KEY>`. Andrei
 browses everything with `hx` (fzf, `ctrl-o` switches requests, queries, evidence), so give every case a
 first `#` line, every query an `"about"`, and every ticket a `ticket.json` feature: that is what he searches.
@@ -75,8 +75,11 @@ Start from `tickets/_template` (`cp -R tickets/_template tickets/<KEY>`).
   - `backup`: every document a writing case changes. `clearCache` for cached ones (`PARTNERS`).
   - `cases`: a `filter` for a long response body; `writes` to correct the method rule.
   - `windows`: one per test case of the PR, with `title`, `steps`, `expected`, a layout
-    (`single`, `columns`, `request-left`) and panes (`req`, `mq`, `check`) in run order. Show the data
+    (`single`, `columns`, `request-left`) and panes (`req`, `mq`, `check`, `run`) in run order. Show the data
     before and after a write, and add a `check` pane so the database result is asserted.
+  - `commands`: for a `run` pane, a named shell line for what hurl cannot send, such as a secure-proxy Lambda
+    (`lambda-local ... | log-brief`, with `secure-proxy-local` running). Secrets as `pass:` references only.
+    hurl README "Local secure-proxy and its Lambdas"; `tickets/DRP-8446` is the example.
 
 ## 4. Run
 
