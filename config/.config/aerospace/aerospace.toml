@@ -146,6 +146,19 @@ gaps.outer.right =      14
     if.app-id = 'com.openai.codex'
     run = 'layout floating'
 
+# Finder, Preview and Calendar always float.
+[[on-window-detected]]
+    if.app-id = 'com.apple.finder'
+    run = 'layout floating'
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.Preview'
+    run = 'layout floating'
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.iCal'
+    run = 'layout floating'
+
 # Pins. Only the first matching rule runs, so these come after the floating rules above.
 [[on-window-detected]]
     if.app-id = 'com.tinyspeck.slackmacgap'
